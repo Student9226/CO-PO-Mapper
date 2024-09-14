@@ -29,7 +29,7 @@ export const HelpButton = () => {
 
     try {
       const response = await fetch(
-        "https://5001-student9226-copomapper-nxnm6xbawzq.ws-us116.gitpod.io/ask",
+        "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/ask",
         {
           method: "POST",
           headers: {

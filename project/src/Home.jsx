@@ -4,7 +4,7 @@ export const Home = () => {
   const handleTableSubmit = async (data) => {
     try {
       const response = await fetch(
-        "https://student9999.pythonanywhere.com/process",
+        "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/process",
         {
           method: "POST",
           headers: {
@@ -19,12 +19,10 @@ export const Home = () => {
       if (response.ok) {
         console.log("AI Response:", result);
 
-        // Update the result element with the fetched data
         const resultElement = document.getElementsByClassName("result")[0];
         if (resultElement) {
           const formattedResult = JSON.stringify(result["result"], null, 2);
-          // Set the formatted JSON into the element
-          resultElement.innerHTML = `<pre>${formattedResult}</pre>`;
+          resultElement.innerHTML = formattedResult.replace(/"/g, "");
         } else {
           console.error("Error:", result.error);
         }
@@ -42,10 +40,11 @@ export const Home = () => {
       </main>
       <h2>Home Page</h2>
       <p>
-        Enter Course outcomes and Program Outcomes in their respectives fields
+        Enter Course outcomes and Program Outcomes in their respective fields
         and submit to view the mapping.
       </p>
       <EditableTable onSubmit={handleTableSubmit} />
+
       <div className="result"></div>
     </div>
   );

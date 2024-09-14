@@ -38,8 +38,8 @@ body {
 
 .App {
   text-align: center;
-  position: relative; /* Ensure overlay works correctly */
-  overflow: hidden; /* Prevent content overflow */
+  position: relative;
+  overflow: hidden; 
 }
 
 header {
@@ -122,7 +122,6 @@ aside .sidebar-item:hover {
   background-color: var(--sidebar-item-hover);
 }
 
-/* Add these styles */
 .sidebar-open aside {
   transform: translateX(0);
 }
@@ -260,7 +259,8 @@ input {
   width: calc(100% - 80px);
   height: 40px;
   margin-top: 10px;
-  background-color: var(--sidebar-border)
+  background-color: var(--sidebar-border);
+  color: white;
 }
 
 button {
@@ -279,9 +279,10 @@ button:hover {
 }
 
 .editable-table {
-  width: 100%;
+  width: 97%;
   border-collapse: collapse;
-  table-layout: fixed; 
+  table-layout: fixed;
+  margin: 20px;
 }
 
 .editable-table th {
@@ -306,8 +307,8 @@ button:hover {
   color: var(--text-color);
   border: 1px solid var(--sidebar-border);
   padding: 5px;
+  margin: 0;
   box-sizing: border-box; 
-  margin: 0; 
   text-align: left; 
 }
 
@@ -319,4 +320,12 @@ button:hover {
 .dragging {
   background-color: #f0f0f0; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.result {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  margin-top: 20px; 
+  background-color: var(--sidebar-item-background); 
 }

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import deleteIcon from '../assets/delete_row.png';
 
 export const EditableTable = ({ onSubmit }) => {
   const [rows, setRows] = useState([{ course: "", outcome: "" }]);
@@ -36,7 +37,6 @@ export const EditableTable = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    // Pass the table data to the parent component
     onSubmit(rows);
   };
 
@@ -54,7 +54,7 @@ export const EditableTable = ({ onSubmit }) => {
                 <tr>
                   <th>CO</th>
                   <th>PO</th>
-                  <th>Actions</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,7 +85,8 @@ export const EditableTable = ({ onSubmit }) => {
                           />
                         </td>
                         <td>
-                          <button onClick={() => handleDeleteRow(index)}>Delete Row</button>
+                          <button onClick={() => handleDeleteRow(index)}><img src={deleteIcon} height={20} alt="Delete Row" />
+                          </button>
                         </td>
                       </tr>
                     )}

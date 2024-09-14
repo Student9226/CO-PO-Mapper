@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import darkModeOn from '../assets/dark_mode_on.png'; // Adjust the path if necessary
-import darkModeOff from '../assets/dark_mode_off.png'; // Adjust the path if necessary
+import darkModeOn from '../assets/dark_mode_on.png'; 
+import darkModeOff from '../assets/dark_mode_off.png'; 
 import menuIcon from '../assets/menu.png';
+import PropTypes from 'prop-types';
 
 export const Header = ({ toggleDarkMode, darkMode, toggleSidebar }) => {
   return (
@@ -15,4 +15,10 @@ export const Header = ({ toggleDarkMode, darkMode, toggleSidebar }) => {
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  toggleDarkMode: PropTypes.func.isRequired,  
+  darkMode: PropTypes.bool.isRequired,      
+  toggleSidebar: PropTypes.func.isRequired  
 };
