@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
 export const Sidebar = ({ isOpen, onSelect }) => {
@@ -15,6 +15,12 @@ export const Sidebar = ({ isOpen, onSelect }) => {
       <div className="sidebar-item" onClick={() => handleClick('about')}>About</div>
       <div className="sidebar-item" onClick={() => handleClick('contact')}>Contact</div>
       <div className="sidebar-item" onClick={() => handleClick('login')}>Login</div>
+      <div className="sidebar-item" onClick={() => handleClick('profile')}>Profile</div>
     </aside>
   );
 };
+
+Sidebar.propTypes ={
+  isOpen: PropTypes.bool.isRequired,
+  onSelect: PropTypes.bool.isRequired
+}

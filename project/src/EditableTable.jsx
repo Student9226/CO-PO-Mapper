@@ -17,11 +17,11 @@ export const EditableTable = ({ onSubmit }) => {
   };
 
   const handleDeleteRow = (index) => {
-    if(rows.length>1){
-    const newRows = rows.filter((_, i) => i !== index);
-    setRows(newRows);
-    }else{
-      alert("Your table must have at least one row.")
+    if (rows.length > 1) {
+      const newRows = rows.filter((_, i) => i !== index);
+      setRows(newRows);
+    } else {
+      alert("Your table must have at least one row.");
     }
   };
 
@@ -40,8 +40,34 @@ export const EditableTable = ({ onSubmit }) => {
     onSubmit(rows);
   };
 
+  const handleExample = () => {
+    const exampleCO = [
+      "Understand the principles and concepts of computer forensics",
+      "Analyze digital evidence from various sources",
+      "Apply forensic tools to identify and collect evidence",
+      "Communicate findings effectively in a report",
+      "Evaluate the ethical implications of digital forensics"
+    ];
+  
+    const examplePO = [
+      "Students develop the ability to solve problems using a computer and develop computer-based solutions for real-world problems",
+      "Students demonstrate critical thinking and problem-solving skills",
+      "Students learn to utilize various software tools for data analysis",
+      "Students enhance their written communication skills through report writing",
+      "Students understand the legal and ethical responsibilities in digital forensics"
+    ];
+  
+    const newRows = exampleCO.map((co, index) => ({
+      course: co,
+      outcome: examplePO[index] || "" // Use empty string if no corresponding PO exists
+    }));
+  
+    setRows([...newRows]); // Replace existing rows with new rows
+  };
+
   return (
     <div>
+      <button onClick={handleExample}>Try an Example</button>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
@@ -85,7 +111,8 @@ export const EditableTable = ({ onSubmit }) => {
                           />
                         </td>
                         <td>
-                          <button onClick={() => handleDeleteRow(index)}><img src={deleteIcon} height={20} alt="Delete Row" />
+                          <button onClick={() => handleDeleteRow(index)}>
+                            <img src={deleteIcon} height={20} alt="Delete Row" />
                           </button>
                         </td>
                       </tr>

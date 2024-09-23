@@ -39,14 +39,14 @@ body {
 .App {
   text-align: center;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: #000016;
   position: sticky;
   top: 0;
@@ -59,18 +59,23 @@ header {
 
 header h1 {
   margin: 0;
+  flex-grow: 1; 
+  text-align: center; 
 }
 
-.dark-mode-toggle, .menu {
+.dark-mode-toggle,
+.menu,
+.profile {
   background: none;
   border: 2px solid white;
   border-radius: 10px;
   cursor: pointer;
-  margin-right: 40px;
-  padding: 5px;
+  margin-right: 20px;
+  padding: 10px;
 }
 
-.dark-mode-toggle:hover, .menu:hover {
+.dark-mode-toggle:hover,
+.menu:hover, .profile:hover {
   border: 2px solid rgb(0, 162, 255);
 }
 
@@ -92,8 +97,8 @@ aside .sidebar-item {
   background: var(--sidebar-item-background);
   color: var(--sidebar-item-text-color);
   padding: 10px;
-  border-radius: 4px; 
-  cursor: pointer; 
+  border-radius: 4px;
+  cursor: pointer;
   margin: 10px 0;
   transition: background-color 0.3s;
   border: 1px solid var(--sidebar-item-text-color);
@@ -107,9 +112,9 @@ aside .sidebar-item:hover {
   background: var(--sidebar-item-background);
   color: var(--sidebar-item-text-color);
   padding: 10px;
-  border-radius: 4px; 
-  cursor: pointer; 
-  margin: 10px 0; 
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 0;
   transition: background-color 0.3s;
   border: 1px solid var(--sidebar-item-text-color);
 }
@@ -149,13 +154,13 @@ aside .sidebar-item:hover {
   display: block;
 }
 
-.card{
+.card {
   border: 1px solid black;
   border-radius: 20px;
-  margin:20px;
-  margin-left:min(180px, 180px);
-  margin-right:min(180px, 180px);
-  padding:20px
+  margin: 20px;
+  margin-left: min(180px, 180px);
+  margin-right: min(180px, 180px);
+  padding: 20px;
 }
 
 .help-button {
@@ -174,7 +179,7 @@ aside .sidebar-item:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .help-button:hover {
@@ -188,15 +193,15 @@ aside .sidebar-item:hover {
   width: 300px;
   height: 400px;
   padding: 15px;
-  background-color:  var(--chat-window-background);
+  background-color: var(--chat-window-background);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   border: 1px solid var(--text-color);
   z-index: 1000;
-  overflow-y: auto; 
+  overflow-y: auto;
   resize: both;
   overflow: auto;
-  cursor: move; 
+  cursor: move;
 }
 
 .resizable-handle {
@@ -255,11 +260,11 @@ aside .sidebar-item:hover {
   background-color: var(--chat-message-assistant);
 }
 
-input {
-  width: calc(100% - 80px);
+input, select {
+  width: calc(100% - 900px);
   height: 40px;
   margin-top: 10px;
-  background-color: var(--sidebar-border);
+  background-color: var(--sidebar-background);
   color: white;
 }
 
@@ -290,7 +295,7 @@ button:hover {
   color: var(--text-color);
   border: 1px solid var(--sidebar-border);
   padding: 10px;
-  text-align: center; 
+  text-align: center;
 }
 
 .editable-table td {
@@ -298,7 +303,7 @@ button:hover {
   color: var(--text-color);
   border: 1px solid var(--sidebar-border);
   padding: 10px;
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 .editable-table input {
@@ -308,17 +313,16 @@ button:hover {
   border: 1px solid var(--sidebar-border);
   padding: 5px;
   margin: 0;
-  box-sizing: border-box; 
-  text-align: left; 
+  box-sizing: border-box;
+  text-align: left;
 }
 
 .editable-table tr:hover {
   background-color: var(--sidebar-item-hover);
 }
 
-
 .dragging {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -326,6 +330,51 @@ button:hover {
   border: 1px solid #ccc;
   padding: 20px;
   margin: 20px;
-  margin-top: 20px; 
-  background-color: var(--sidebar-item-background); 
+  margin-top: 20px;
+  background-color: var(--sidebar-item-background);
+}
+
+.fields{
+  display: inline-block;
+  background: var(--sidebar-item-background);
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black
+}
+.profile-dropdown {
+  position: absolute;
+  bottom: -160px; 
+  left: 80px;
+  background-color: var(--background-color);
+  border: 1px solid #ccc; 
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 10px; 
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  z-index: 10000; 
+  color: var(--text-color)
+}
+
+.profile-dropdown ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 10px; /* Padding for the list */
+  margin: 0; /* Remove default margin */
+}
+
+.profile-dropdown li {
+  padding: 8px 12px; /* Padding for each item */
+  cursor: pointer; /* Indicate clickable items */
+}
+
+.profile-dropdown li:hover {
+  background-color: var(--sidebar-item-hover); /* Highlight on hover */
 }

@@ -7,6 +7,8 @@ import { About } from './About';
 import { Contact } from './Contact';
 import { Login } from './Login';
 import { HelpButton } from './HelpButton';
+import { Profile } from './Profile';
+
 import './App.css';
 
 const App = () => {
@@ -47,6 +49,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>
       </div>
