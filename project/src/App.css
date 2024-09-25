@@ -59,8 +59,8 @@ header {
 
 header h1 {
   margin: 0;
-  flex-grow: 1; 
-  text-align: center; 
+  flex-grow: 1;
+  text-align: center;
 }
 
 .dark-mode-toggle,
@@ -75,7 +75,8 @@ header h1 {
 }
 
 .dark-mode-toggle:hover,
-.menu:hover, .profile:hover {
+.menu:hover,
+.profile:hover {
   border: 2px solid rgb(0, 162, 255);
 }
 
@@ -260,7 +261,8 @@ aside .sidebar-item:hover {
   background-color: var(--chat-message-assistant);
 }
 
-input, select {
+input,
+select {
   width: calc(100% - 900px);
   height: 40px;
   margin-top: 10px;
@@ -334,47 +336,106 @@ button:hover {
   background-color: var(--sidebar-item-background);
 }
 
-.fields{
-  display: inline-block;
-  background: var(--sidebar-item-background);
-  border: 1px solid white;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-  font-weight: bold;
-}
-
-main{
+.form-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid black
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
 }
-.profile-dropdown {
-  position: absolute;
-  bottom: -160px; 
-  left: 80px;
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 400px;
+  background-color: var(--sidebar-item-background);
+  border: 1px solid var(--sidebar-border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-fields label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color);
+  width: 100%;
+}
+
+.form-fields select,
+.form-fields input {
+  width: 100%; /* Ensure the inputs fill the width */
+  padding: 8px;
+  margin-top: 8px;
   background-color: var(--background-color);
-  border: 1px solid #ccc; 
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-left-radius: 10px; 
-  border-bottom-right-radius: 10px;
+  border: 1px solid var(--sidebar-border);
+  border-radius: 5px;
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+.form-fields select:focus,
+.form-fields input:focus {
+  outline: none;
+  border-color: var(--special-button);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-container button {
+  background-color: var(--special-button);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.form-container button:hover {
+  background-color: var(--special-button-hover);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+.profile-dropdown {
+  overflow: visible;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--background-color);
+  border: 1px solid #ccc;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  z-index: 10000; 
-  color: var(--text-color)
+  z-index: 99999;
+  color: var(--text-color);
+  width: 200px;
 }
 
 .profile-dropdown ul {
-  list-style-type: none; /* Remove default list styles */
-  padding: 10px; /* Padding for the list */
-  margin: 0; /* Remove default margin */
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
 }
 
 .profile-dropdown li {
-  padding: 8px 12px; /* Padding for each item */
-  cursor: pointer; /* Indicate clickable items */
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--sidebar-item-hover); /* Optional: Adds a bottom border to items */
 }
 
 .profile-dropdown li:hover {
   background-color: var(--sidebar-item-hover); /* Highlight on hover */
+}
+
+.profile-dropdown li:last-child {
+  border-bottom: none; /* Remove border from the last item */
+}
+
+.profile-container {
+  position: relative;
 }

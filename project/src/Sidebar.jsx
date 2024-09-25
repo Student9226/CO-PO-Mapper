@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export const Sidebar = ({ isOpen, onSelect }) => {
   const navigate = useNavigate();
@@ -22,5 +22,5 @@ export const Sidebar = ({ isOpen, onSelect }) => {
 
 Sidebar.propTypes ={
   isOpen: PropTypes.bool.isRequired,
-  onSelect: PropTypes.bool.isRequired
+  onSelect: PropTypes.func.isRequired
 }
