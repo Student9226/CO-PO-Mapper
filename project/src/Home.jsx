@@ -1,16 +1,15 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
-import * as XLSX from 'xlsx';
-import { Document, Packer, Paragraph, TextRun } from 'docx';
-import { saveAs } from 'file-saver';// Import file-saver to handle saving files
-import { useNavigate } from 'react-router-dom';
+import bsc_cs from '../json/bsc_cs.json';
+import bsc_it from '../json/bsc_it.json';
+import msc_it from '../json/msc_it.json';
 
 const ClassDropdown = ({ selectedClass, onClassChange, classes }) => {
   return (
     <label className="fields">
-      Class:
-      <select value={selectedClass} onChange={onClassChange}>
-        <option value="">Select a class</option>
+      Year:
+      <select name="year" value={selectedClass} onChange={onClassChange}>
+        <option value="">Select a year</option>
         {classes.map((className) => (
           <option key={className} value={className}>
             {className}
@@ -23,129 +22,100 @@ const ClassDropdown = ({ selectedClass, onClassChange, classes }) => {
 
 ClassDropdown.propTypes = {
   selectedClass: PropTypes.string,
-  onClassChange: PropTypes.func.isRequired, 
+  onClassChange: PropTypes.func.isRequired,
   classes: PropTypes.array.isRequired
 };
 
 export const Home = () => {
-  const [username, setUsername] = useState("");
   const [course, setCourse] = useState("");
-  const [class1, setClass1] = useState("");
+  const [year, setYear] = useState("");
   const [semester, setSemester] = useState("");
-  const [program, setProgram] = useState("");
-  const navigate = useNavigate();
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [subject, setSubject] = useState("");
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
-    setClass1(''); 
+    setYear('');
+    setSemester('');
+    setSubject('');
+    setFilteredCourses([]);
+    setSubjectOptions([]);
   };
 
-  const handleClass = (e) => {
-    setClass1(e.target.value);
+  const handleYear = (e) => {
+    setYear(e.target.value);
+    setSemester('');
+    setSubject('');
+    setFilteredCourses([]);
+    setSubjectOptions([]);
   };
 
-  const exportToExcel = () => {
-    if (!username || !course || !class1 || !semester || !program) {
-      alert('Please fill out all fields before exporting.');
-      return;
+  const handleSemester = (e) => {
+    setSemester(e.target.value);
+    filterCourses(e.target.value);
+  };
+
+  const filterCourses = (semester) => {
+    let programData;
+
+    if (course && year) { // Check if course and year are selected
+        // Find the correct syllabus based on syllabus year
+        const syllabus = msc_it.syllabi.find(s => s.syllabus_year === "2015-2016"); // Replace with the appropriate syllabus year if necessary
+        
+        if (syllabus) {
+            switch (course) {
+                case 'BSc CS':
+                    programData = bsc_cs.program.find((program) => program.year === year && program.semester === semester);
+                    break;
+                case 'BSc IT':
+                    programData = bsc_it.program.find((program) => program.year === year && program.semester === semester);
+                    break;
+                case 'MSc IT':
+                    programData = syllabus.program.find((program) => program.year === year && program.semester === semester);
+                    break;
+                default:
+                    programData = null;
+            }
+        }
     }
-    const data = [{
-      Username: username,
-      Course: course,
-      Class: class1,
-      Semester: semester,
-      Program: program,
-    }];
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Form Data");
-    XLSX.writeFile(wb, "form_data.xlsx");
-  };
 
-  const exportToWord = () => {
-    if (!username || !course || !class1 || !semester || !program) {
-      alert('Please fill out all fields before exporting.');
-      return;
+    if (programData) {
+        setFilteredCourses(programData.courses);
+        setSubjectOptions(programData.courses.map(course => course.name));
+    } else {
+        setFilteredCourses([]); 
+        setSubjectOptions([]);
     }
-  
-    const doc = new Document({
-      sections: [
-        {
-          properties: {},
-          children: [
-            new Paragraph({
-              children: [
-                new TextRun(`Username: ${username}`),
-                new TextRun("\n"),
-                new TextRun(`Course: ${course}`),
-                new TextRun("\n"),
-                new TextRun(`Class: ${class1}`),
-                new TextRun("\n"),
-                new TextRun(`Semester: ${semester}`),
-                new TextRun("\n"),
-                new TextRun(`Program: ${program}`),
-              ],
-            }),
-          ],
-        },
-      ],
-    });
-  
-    Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, "form_data.docx");
-    });
-  };
-  
+};
 
-  const getClassesForCourse = () => {
-    switch (course) {
-      case 'BSc DS':
-        return ['First Year', 'Second Year', 'Third Year'];
-      case 'BSc IT':
-        return ['First Year', 'Second Year'];
-      case 'BSc CS':
-        return ['First Year', 'Second Year', 'Third Year'];
-      case 'MSc CS':
-        return ['First Year', 'Second Year'];
-      default:
-        return [];
-    }
+  const handleSubject = (e) => {
+    setSubject(e.target.value);
   };
-
-  const classes = getClassesForCourse();
 
   return (
     <>
       <main className="form-container">
         <div className="form-fields">
           <label className="fields">
-            Course Instructor:
-            <input name="instructor" value={username} onChange={(e) => setUsername(e.target.value)} type="text" />
-          </label>
-
-          <label className="fields">
             Course Name:
             <select name="course" value={course} onChange={handleCourse}>
               <option value="">Select a course</option>
-              <option value="BSc DS">BSc DS</option>
-              <option value="BSc IT">BSc IT</option>
               <option value="BSc CS">BSc CS</option>
-              <option value="MSc CS">MSc CS</option>
+              <option value="BSc IT">BSc IT</option>
+              <option value="MSc IT">MSc IT</option>
             </select>
           </label>
 
-          {course && (
-            <ClassDropdown 
-              selectedClass={class1} 
-              onClassChange={handleClass} 
-              classes={classes}
-              name="class"
-            />
-          )}
+          <ClassDropdown 
+            selectedClass={year} 
+            onClassChange={handleYear} 
+            classes={["First", "Second", "Third"]}
+          />
 
           <label className="fields">
             Semester:
-            <select name="semester" value={semester} onChange={(e) => setSemester(e.target.value)}>
+            <select name="semester" value={semester} onChange={handleSemester}>
               <option value="">Select a semester</option>
               <option value="I">I</option>
               <option value="II">II</option>
@@ -157,25 +127,55 @@ export const Home = () => {
           </label>
 
           <label className="fields">
-            Program Name:
-            <select name="program" value={program} onChange={(e) => setProgram(e.target.value)}>
-              <option value="">Select a program</option>
-              <option value="Java">Java</option>
-              <option value="Python">Python</option>
-              <option value="CSS">CSS</option>
-              <option value="HTML">HTML</option>
+            Subject:
+            <select name="subject" value={subject} onChange={handleSubject}>
+              <option value="">Select a subject</option>
+              {subjectOptions.map((subjectName) => (
+                <option key={subjectName} value={subjectName}>
+                  {subjectName}
+                </option>
+              ))}
             </select>
           </label>
         </div>
 
-        <button onClick={exportToExcel}>Export to Excel</button>
-        <button onClick={exportToWord}>Export to Word</button> {/* Add button for Word export */}
+        <Table courses={filteredCourses} />
       </main>
-
-      <div style={{ paddingBottom: 40 }}>
-        You can log in to your account for more features.
-        <button onClick={() => navigate('/login')} role="button" tabIndex={0}>Log in</button>
-      </div>
     </>
   );
+};
+
+const Table = ({ courses }) => {
+  return (
+    <table className="course-table">
+      <thead>
+        {courses.length !== 0 && (
+          <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Outcomes</th>
+          </tr>
+        )}
+      </thead>
+      <tbody>
+        {courses.map((course) => (
+          <tr key={course.id}>
+            <td>{course.id}</td>
+            <td>{course.name}</td>
+            <td>
+              <ul>
+                {course.outcomes.map((outcome, index) => (
+                  <li key={index}>{outcome}</li>
+                ))}
+              </ul>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+Table.propTypes = {
+  courses: PropTypes.array.isRequired
 };

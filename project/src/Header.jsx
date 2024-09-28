@@ -6,6 +6,7 @@ import menuIcon from '../assets/menu.png';
 import profileIcon from '../assets/avatar.png';
 import PropTypes from 'prop-types';
 import { ProfileDropdown } from './ProfileDropdown';
+import './styles/header.css'
 
 export const Header = ({ toggleDarkMode, darkMode, toggleSidebar, profileImg, toggleDropdown, dropdownOpen, onSelect }) => {
   const navigate = useNavigate();

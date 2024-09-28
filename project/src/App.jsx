@@ -9,7 +9,7 @@ import { Login } from './Login';
 import { HelpButton } from './HelpButton';
 import { Profile } from './Profile';
 import { ProfileDropdown } from './ProfileDropdown';
-import './App.css';
+import './styles/App.css';
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -38,7 +38,10 @@ const App = () => {
   const handleLogout = () => {
     console.log('Logged out');
   };
-
+  
+  const handleDropdown = () => {
+    console.log('Logged out');
+  };
   return (
     <>
       <Router>
@@ -47,10 +50,10 @@ const App = () => {
             toggleDarkMode={toggleDarkMode} 
             darkMode={darkMode} 
             toggleSidebar={toggleSidebar} 
-            profileImg="" // Pass a profile image if available
-            toggleDropdown={() => setProfileDropdownOpen(prev => !prev)} // Pass toggle function
-            dropdownOpen={profileDropdownOpen} // Pass dropdown state
-            onSelect={() => setProfileDropdownOpen(false)} // Pass the close function for the dropdown
+            profileImg="" 
+            toggleDropdown={() => setProfileDropdownOpen(prev => !prev)} 
+            dropdownOpen={profileDropdownOpen}
+            onSelect={() => setProfileDropdownOpen(false)}
           />
           
           {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
@@ -59,7 +62,7 @@ const App = () => {
           <ProfileDropdown 
             isOpen={profileDropdownOpen} 
             onLogout={handleLogout} 
-            onSelect={() => setProfileDropdownOpen(false)} // Close dropdown on select
+            onSelect={handleDropdown}
           />
           
           <main>

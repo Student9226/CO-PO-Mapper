@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import './styles/chatHelp.css'
 
 export const HelpButton = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);

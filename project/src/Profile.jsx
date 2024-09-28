@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import avatar from "../assets/avatar.png";
 import { Login } from "./Login";
+
 export const Profile = ({ user = "User", picture = avatar }) => {
   const navigate = useNavigate();
 

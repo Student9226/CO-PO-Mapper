@@ -1,23 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import './styles/profileDropdown.css'
 
-export const ProfileDropdown = ({ isOpen, onSelect, onLogout }) => {
-  const navigate = useNavigate();
+export const ProfileDropdown = ({ isOpen, onSelect}) => {
+  const navigate = (path)=>{
+    useNavigate(path);
 
-  const handleLogout = () => {
-    onLogout(); // Call the logout function passed as a prop
-    navigate('/login'); // Redirect to the login page
-    onSelect(); // Close the dropdown
-  };
-
+  }
   return (
     isOpen && (
       <div className="profile-dropdown">
         <ul>
-          <li onClick={onSelect}>Profile</li>
-          <li onClick={onSelect}>About</li>
-          <li onClick={onSelect}>Contact</li>
-          <li onClick={() => navigate('/login')} role="button" tabIndex={0}>Log in</li>
+          <li><button onClick={()=>navigate('/profile')} tabIndex={0}>Profile</button></li>
+          <li><button onClick={()=>navigate('/about')} tabIndex={1}>About</button></li>
+          <li><button onClick={()=>navigate('/contact')} tabIndex={2}>Contact</button></li>
+          <li><button onClick={()=>navigate('/login')} tabIndex={3}>Log in</button></li>
         </ul>
       </div>
     )
@@ -27,5 +24,4 @@ export const ProfileDropdown = ({ isOpen, onSelect, onLogout }) => {
 ProfileDropdown.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired // Ensure onLogout is defined as a prop
 };

@@ -1,0 +1,37 @@
+header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 10px;
+background-color: #000016;
+position: sticky;
+top: 0;
+text-align: center;
+color: white;
+width: 100%;
+z-index: 1000;
+border-bottom: 1px solid var(--sidebar-border);
+}
+
+header h1 {
+margin: 0;
+flex-grow: 1;
+text-align: center;
+}
+
+.dark-mode-toggle,
+.menu,
+.profile {
+background: none;
+border: 2px solid white;
+border-radius: 10px;
+cursor: pointer;
+margin-right: 20px;
+padding: 10px;
+}
+
+.dark-mode-toggle:hover,
+.menu:hover,
+.profile:hover {
+border: 2px solid rgb(0, 162, 255);
+}

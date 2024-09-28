@@ -1,0 +1,59 @@
+
+.help-button {
+position: fixed;
+bottom: 20px;
+right: 20px;
+width: 60px;
+height: 60px;
+background-color: var(--special-button);
+color: white;
+border-radius: 50%;
+border: none;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+font-size: 24px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+}
+
+.help-button:hover {
+background-color: var(--special-button-hover);
+}
+
+.chat-window {
+position: fixed;
+bottom: 90px;
+right: 20px;
+width: 300px;
+height: 400px;
+padding: 15px;
+background-color: var(--chat-window-background);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+border-radius: 10px;
+border: 1px solid var(--text-color);
+z-index: 1000;
+overflow-y: auto;
+resize: both;
+overflow: auto;
+cursor: move;
+}
+
+.chat-messages {
+margin-bottom: 10px;
+}
+
+.chat-message {
+padding: 8px;
+border-radius: 5px;
+margin-bottom: 5px;
+}
+
+.chat-message.user {
+background-color: var(--chat-message-user);
+}
+
+.chat-message.assistant {
+background-color: var(--chat-message-assistant);
+}

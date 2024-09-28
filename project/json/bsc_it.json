@@ -1,0 +1,132 @@
+{
+    "syllabi": [
+        {
+            "year": "First",
+            "semester": "I",
+            "courses": [
+                {
+                    "id": "USIT101",
+                    "name": "Programming Principles with C",
+                    "outcomes": [
+                        "To develop the logical ability of the student.", 
+                        "Basic concepts to be cleared using suitable examples.",
+                        "Different approach towards the problem.",
+                        "To handle the errors and find suitable solutions.",
+                        "Debugging the code."
+                    ]
+                },
+                {
+                    "id": "USIT102",
+                    "name": "Digital Logic and Applications",
+                    "outcomes": [
+                        "To introduce the basics of logic in digital electronics as an entry-level course.",
+                        "To interpret and assess number systems and the conversions of number systems.",
+                        "To analyze the boolean expressions and reduce the expression to the minimum.",
+                        "To design simple logic circuits using tools such as Boolean Algebra and Karnaugh Mapping.",
+                        "To understand the state of a memory cell and its types using flip-flops.",
+                        "To create simple digital systems using counters, registers, etc."
+                    ]
+                },
+                {
+                    "id": "USIT103",
+                    "name": "Fundamentals of Database Management Systems",
+                    "outcomes": [
+                        "Define and describe the fundamental elements of relational database management systems.",
+                        "To relate the basic concepts of relational data model, entity-relationship model, relational database design, relational algebra, and SQL.",
+                        "Design ER-models to represent simple database application scenarios.",
+                        "Transform the ER-model to relational tables, populate relational databases, and formulate SQL queries on data.",
+                        "Improve the database design by normalization.",
+                        "Understand basic database storage structures and access techniques: file and page organizations, indexing methods, and hashing."
+                    ]
+                },
+                {
+                    "id": "USIT104",
+                    "name": "Computational Logic and Discrete Structures",
+                    "outcomes": [
+                        "Use logical notation.",
+                        "Perform logical proofs.",
+                        "Apply recursive functions and solve recurrence relations.",
+                        "Use graphs and trees.",
+                        "Apply basic and advanced principles of counting.",
+                        "Define sets and relations.",
+                        "Calculate discrete probabilities."
+                    ]
+                },
+                {
+                    "id": "USIT105",
+                    "name": "Technical Communication Skills",
+                    "outcomes": [
+                        "Analyze, synthesize, and utilize the process and strategies from delivery to solving communication problems.",
+                        "Learn the communication methodologies at the workplace and the importance of team collaboration.",
+                        "Learn about different technical communication forms such as presentations and interviews.",
+                        "Understand and apply the art of written communication in writing reports and proposals.",
+                        "Understand ground rules of ethical communication and MIS.",
+                        "Understand the functions of graphs, maps, and charts."
+                    ]
+                }
+            ]
+        },
+        {
+            "year": "First",
+            "semester": "II",
+            "courses": [
+                {
+                    "id": "USIT201",
+                    "name": "Object Oriented Programming with C++",
+                    "outcomes": [
+                        "Understand the concept of OOPs and the features of the C++ language.",
+                        "Understand and apply various types of data types, operators, and conversions while designing the program.",
+                        "Understand and apply the concepts of classes, objects, friend functions, constructors, and destructors in program design.",
+                        "Design and implement various forms of inheritance, string class, and base class constructors.",
+                        "Apply and analyze operator overloading, runtime polymorphism, and generic programming.",
+                        "Analyze and explore various stream classes, I/O operations, and exception handling."
+                    ]
+                },
+                {
+                    "id": "USIT202",
+                    "name": "Fundamentals of Micro Processor and Microcontrollers",
+                    "outcomes": [
+                        "Understand the basic concepts of microcomputer systems.",
+                        "Understand the architecture and hardware aspects of the 8085.",
+                        "Write assembly language programs in 8085.",
+                        "Design elementary aspects of microcontroller-based systems.",
+                        "Interface peripherals using microcontrollers."
+                    ]
+                },
+                {
+                    "id": "USIT203",
+                    "name": "Web Applications Development",
+                    "outcomes": [
+                        "Analyze the working of the Internet.",
+                        "Gain insight into designing web pages.",
+                        "Use different ways of styling web pages using CSS.",
+                        "Implement basic and complex functionalities of JavaScript in a web page.",
+                        "Employ PHP scripts to execute dynamic tasks in a web page.",
+                        "Perform various database tasks using PHP."
+                    ]
+                },
+                {
+                    "id": "USIT204",
+                    "name": "Numerical Methods",
+                    "outcomes": [
+                        "Understand numerical techniques to find the roots of non-linear equations and the solution of systems of linear equations.",
+                        "Understand the difference operators and the use of interpolation.",
+                        "Understand numerical differentiation, integration, and numerical solutions of ordinary and partial differential equations."
+                    ]
+                },
+                {
+                    "id": "USIT205",
+                    "name": "Green IT",
+                    "outcomes": [
+                        "Understand the concept of Green IT and the problems related to it.",
+                        "Know different standards for Green IT.",
+                        "Understand how power usage can be minimized in technology.",
+                        "Learn about how the way of work is changing.",
+                        "Understand the concept of recycling.",
+                        "Know how information systems can stay green."
+                    ]
+                }
+            ]
+        }
+    ]
+}

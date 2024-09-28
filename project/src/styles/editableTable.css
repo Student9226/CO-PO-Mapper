@@ -1,0 +1,82 @@
+
+.resizable-handle {
+position: absolute;
+background-color: transparent;
+z-index: 10;
+}
+
+.resizable-handle.top-left {
+width: 10px;
+height: 10px;
+top: 0;
+left: 0;
+cursor: nwse-resize;
+}
+
+.resizable-handle.top-right {
+width: 10px;
+height: 10px;
+top: 0;
+right: 0;
+cursor: nesw-resize;
+}
+
+.resizable-handle.bottom-left {
+width: 10px;
+height: 10px;
+bottom: 0;
+left: 0;
+cursor: nesw-resize;
+}
+
+.resizable-handle.bottom-right {
+width: 10px;
+height: 10px;
+bottom: 0;
+right: 0;
+cursor: nwse-resize;
+}
+
+
+.editable-table {
+width: 97%;
+border-collapse: collapse;
+table-layout: fixed;
+margin: 20px;
+}
+
+.editable-table th {
+background-color: var(--sidebar-item-background);
+color: var(--text-color);
+border: 1px solid var(--sidebar-border);
+padding: 10px;
+text-align: center;
+}
+
+.editable-table td {
+background-color: var(--background-color);
+color: var(--text-color);
+border: 1px solid var(--sidebar-border);
+padding: 10px;
+vertical-align: middle;
+}
+
+.editable-table input {
+width: 100%;
+background-color: var(--background-color);
+color: var(--text-color);
+border: 1px solid var(--sidebar-border);
+padding: 5px;
+margin: 0;
+box-sizing: border-box;
+text-align: left;
+}
+
+.editable-table tr:hover {
+background-color: var(--sidebar-item-hover);
+}
+
+.dragging {
+background-color: #f0f0f0;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

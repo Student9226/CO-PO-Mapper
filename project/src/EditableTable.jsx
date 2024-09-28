@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import deleteIcon from '../assets/delete_row.png';
-
+import './styles/editableTable.css'
 export const EditableTable = ({ onSubmit }) => {
   const [rows, setRows] = useState([{ course: "", outcome: "" }]);
 

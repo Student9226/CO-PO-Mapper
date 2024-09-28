@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import './styles/sidebar.css'
 import PropTypes from 'prop-types';
 
 export const Sidebar = ({ isOpen, onSelect }) => {
