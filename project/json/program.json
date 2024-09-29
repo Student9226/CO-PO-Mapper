@@ -1,0 +1,26 @@
+{
+    "program_outcomes": {
+      "BSc CS": [
+        "To formulate, to model, to design solutions, procedure and to use software tools to solve real world problems.",
+        "To design and develop computer programs/computer-based systems in areas such as networking, web design, security, cloud computing, IoT, data science, and other emerging technologies.",
+        "To familiarize with modern-day trends in industry and research settings and innovate solutions to existing problems.",
+        "To apply computer science concepts, principles, and theories to new situations.",
+        "To use current techniques, skills, and tools necessary for computing practice.",
+        "To apply standard Software Engineering practices and strategies in real-time software project development.",
+        "To pursue higher studies of specialization and to take up technical employment.",
+        "To work independently or collaboratively as an effective team member on a substantial software project.",
+        "To communicate and present work effectively and coherently.",
+        "To display ethical conduct in the usage of Internet and Cyber systems.",
+        "To engage in independent and life-long learning amid the rapidly changing IT industry."
+      ],
+      "BSc IT": [
+        "Outcome 1 for BSc IT...",
+        "Outcome 2 for BSc IT..."
+      ],
+      "MSc IT": [
+        "Outcome 1 for MSc IT...",
+        "Outcome 2 for MSc IT..."
+      ]
+    }
+  }
+  
