@@ -1,26 +1,33 @@
 {
-    "program_outcomes": {
-      "BSc CS": [
-        "To formulate, to model, to design solutions, procedure and to use software tools to solve real world problems.",
-        "To design and develop computer programs/computer-based systems in areas such as networking, web design, security, cloud computing, IoT, data science, and other emerging technologies.",
-        "To familiarize with modern-day trends in industry and research settings and innovate solutions to existing problems.",
-        "To apply computer science concepts, principles, and theories to new situations.",
-        "To use current techniques, skills, and tools necessary for computing practice.",
-        "To apply standard Software Engineering practices and strategies in real-time software project development.",
-        "To pursue higher studies of specialization and to take up technical employment.",
-        "To work independently or collaboratively as an effective team member on a substantial software project.",
-        "To communicate and present work effectively and coherently.",
-        "To display ethical conduct in the usage of Internet and Cyber systems.",
-        "To engage in independent and life-long learning amid the rapidly changing IT industry."
-      ],
-      "BSc IT": [
-        "Outcome 1 for BSc IT...",
-        "Outcome 2 for BSc IT..."
-      ],
-      "MSc IT": [
-        "Outcome 1 for MSc IT...",
-        "Outcome 2 for MSc IT..."
-      ]
-    }
+  "program_outcomes": {
+    "BSc CS": [
+      "To formulate, to model, to design solutions, procedure and to use software tools to solve real world problems.",
+      "To design and develop computer programs/computer-based systems in areas such as networking, web design, security, cloud computing, IoT, data science, and other emerging technologies.",
+      "To familiarize with modern-day trends in industry and research settings and innovate solutions to existing problems.",
+      "To apply computer science concepts, principles, and theories to new situations.",
+      "To use current techniques, skills, and tools necessary for computing practice.",
+      "To apply standard Software Engineering practices and strategies in real-time software project development.",
+      "To pursue higher studies of specialization and to take up technical employment.",
+      "To work independently or collaboratively as an effective team member on a substantial software project.",
+      "To communicate and present work effectively and coherently.",
+      "To display ethical conduct in the usage of Internet and Cyber systems.",
+      "To engage in independent and life-long learning amid the rapidly changing IT industry."
+    ],
+    "BSc IT": [
+      "To think analytically, creatively and critically in developing robust, extensible and highly maintainable technological solutions to simple and complex problems.",
+      "To apply their knowledge and skills to be employed and excel in IT professional careersand/or to continue their education in IT and/or related post graduate programmes.",
+      "To be capable of managing complex IT projects with consideration of the human,financial and environmental factors.",
+      "To work effectively as a part of a team to achieve a common stated goal.",
+      "To adhere to the highest standards of ethics, including relevant industry andorganizational codes of conduct.",
+      "To communicate effectively with a range of audiences both technical and non-technical.",
+      "To develop an aptitude to engage in continuing professional development"
+    ],
+    "MSc IT": [
+      "Ability to apply the knowledge of Information Technology with recent trends aligned with research and industry.",
+      "Ability to apply IT in the field of Computational Research, Soft Computing, Big Data Analytics, Data Science, Image Processing, Artificial Intelligence, Networking and Cloud Computing.",
+      "Ability to provide socially acceptable technical solutions in the domains of Information Security, Machine Learning, Internet of Things and Embedded System, Infrastructure Services as specializations.",
+      "Ability to apply the knowledge of Intellectual Property Rights, Cyber Laws and Cyber Forensics and various standards in interest of National Security and Integrity along with IT Industry.",
+      "Ability to write effective project reports, research publications and content development and to work in multidisciplinary environment in the context of changing technologies."
+    ]
   }
-  
+}

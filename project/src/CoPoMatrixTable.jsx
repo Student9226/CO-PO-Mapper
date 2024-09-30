@@ -1,39 +1,37 @@
-const coPoMatrix = {
-  "CO1": [1, 1, 3, 2, 2, 0, 1, 1, 1, 0, 2],
-  "CO2": [0, 1, 3, 2, 1, 0, 1, 0, 0, 0, 2],
-  "CO3": [0, 1, 3, 2, 1, 0, 1, 0, 0, 0, 2],
-  "CO4": [0, 1, 3, 2, 1, 0, 1, 0, 0, 0, 2],
-  "AVG": [0.25, 1.00, 3.00, 2.00, 1.25, 0.00, 1.00, 0.25, 0.25, 0.00, 2.00]
-};
+import PropTypes from 'prop-types';
+import coPoMatrix from '../json/co_po_matrix.json'; // Adjust the path as necessary
 
-// CO PO Matrix Component
-export const CoPoMatrixTable = () => {
-  const poHeaders = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
-  
+export const CoPoMatrixTable = ({ selectedCourse = 'BSc IT' }) => {
+  const coData = coPoMatrix[selectedCourse] || {}; // Use empty object if undefined
+
   return (
     <div>
-      <h3>CO PO Matrix</h3>
-      <table border="1" style={{ borderCollapse: 'collapse', width: '100%', textAlign: 'center' }}>
+      <h2>CO-PO Matrix for {selectedCourse}</h2>
+      <table>
         <thead>
           <tr>
             <th>Course Outcomes</th>
-            {poHeaders.map((po, index) => (
-              <th key={index}>PO{po}</th>
+            {Array.from({ length: 11 }, (_, index) => (
+              <th key={index}>PO{index + 1}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Object.keys(coPoMatrix).map((co, index) => (
-            <tr key={index}>
-              <td  style={{textAlign: "center"}}>{co}</td>
-              {coPoMatrix[co].map((value, idx) => (
-                <td  style={{textAlign: "center"}} key={idx}>{value}</td>
+          {Object.entries(coData).map(([coId, values]) => (
+            <tr key={coId}>
+              <td>{coId}</td>
+              {values.map((value, index) => (
+                <td key={index}>{value}</td>
               ))}
             </tr>
           ))}
+          {/* Handle AVG row if required */}
         </tbody>
       </table>
     </div>
   );
 };
 
+CoPoMatrixTable.propTypes={
+  selectedCourse: PropTypes.string
+}

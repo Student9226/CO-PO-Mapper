@@ -57,5 +57,5 @@ Header.propTypes = {
   profileImg: PropTypes.string,
   toggleDropdown: PropTypes.func.isRequired,
   dropdownOpen: PropTypes.bool.isRequired,
-  onSelect: PropTypes.func.isRequired // Ensure this prop is required
+  onSelect: PropTypes.func.isRequired 
 };
