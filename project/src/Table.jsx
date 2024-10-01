@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export const Table = ({ courses=[], program=[]}) => {
+export const Table = ({ courses=[], program=[], programName=""}) => {
   return (
     <>
       {courses.length > 0 && (
@@ -20,7 +20,7 @@ export const Table = ({ courses=[], program=[]}) => {
                 <td>
                   <ul>
                     {course.outcomes.map((outcome, index) => (
-                      <li key={index}>{outcome}</li>
+                      <li style={{listStyle:'I'}} key={index}>{outcome}</li>
                     ))}
                   </ul>
                 </td>
@@ -34,12 +34,14 @@ export const Table = ({ courses=[], program=[]}) => {
         <table className="program-table">
           <thead>
             <tr>
-              <th>Program Outcomes</th>
+              <th>Sr no</th>
+              <th>{programName} Program Outcomes</th>
             </tr>
           </thead>
           <tbody>
             {program.map((outcome, index) => (
               <tr key={index}>
+                <td style={{textAlign:'center'}}>{index}</td>
                 <td>{outcome}</td>
               </tr>
             ))}
@@ -59,4 +61,5 @@ Table.propTypes = {
     })
   ),
   program: PropTypes.arrayOf(PropTypes.string),
+  programName: PropTypes.string
 };

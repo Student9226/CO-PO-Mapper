@@ -163,7 +163,7 @@ export const Home = () => {
         </div>
 
         <Table courses={filteredCourses} />
-        <Table program={filteredProgram()} />
+        <Table program={filteredProgram()} programName={course} />
         {/*<CoPoMatrixTable selectedCourse={course}/>*/}
               
       </main>
