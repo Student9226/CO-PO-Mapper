@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 export const Table = ({ courses=[], program=[], programName=""}) => {
   return (
     <>
@@ -7,14 +6,17 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
         <table className="course-table">
           <thead>
             <tr>
+            {courses.length!=1 && <th>Sr no</th>}
+            
               <th>Course ID</th>
               <th>Course Name</th>
               <th>Outcomes</th>
             </tr>
           </thead>
           <tbody>
-            {courses.map((course) => (
+            {courses.map((course, index) => (
               <tr key={course.id}>
+                {courses.length>1 && (<td style={{textAlign:'center'}}>{index+1}</td>)}
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>
@@ -41,7 +43,7 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
           <tbody>
             {program.map((outcome, index) => (
               <tr key={index}>
-                <td style={{textAlign:'center'}}>{index}</td>
+                <td style={{textAlign:'center'}}>{index+1}</td>
                 <td>{outcome}</td>
               </tr>
             ))}
@@ -50,7 +52,7 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
       )}
     </>
   );
-};
+}
 
 Table.propTypes = {
   courses: PropTypes.arrayOf(
