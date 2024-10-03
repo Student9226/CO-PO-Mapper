@@ -6,8 +6,8 @@ export const HelpButton = () => {
   const [question, setQuestion] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const chatWindowRef = useRef(null);
-  const helpButtonRef = useRef(null); // Reference for the help button
-  const inputRef = useRef(null); // Reference for the input field
+  const helpButtonRef = useRef(null); 
+  const inputRef = useRef(null); 
   const startX = useRef(null);
   const startY = useRef(null);
   const startWidth = useRef(null);
@@ -15,7 +15,7 @@ export const HelpButton = () => {
   const dragRef = useRef(null);
 
   const handleClick = () => {
-    setIsChatOpen((prevState) => !prevState); // Toggle chat window visibility
+    setIsChatOpen((prevState) => !prevState); 
   };
 
   const handleSubmit = async () => {

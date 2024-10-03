@@ -31,7 +31,7 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
           </tbody>
         </table>
       )}
-
+    
       {program.length > 0 && (
         <table className="program-table">
           <thead>
@@ -50,6 +50,8 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
           </tbody>
         </table>
       )}
+   
+
     </>
   );
 }

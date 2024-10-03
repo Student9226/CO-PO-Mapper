@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import coPoMatrix from '../json/co_po_matrix.json'; 
+import coPoMatrix from '../json/co_po_matrix.json';
 
 export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '' }) => {
-  const courseData = coPoMatrix[selectedCourse] || {}; 
-
   if (!selectedCourse || !selectedProgram) return null;
+
+  const courseData = coPoMatrix[selectedProgram]?.[selectedCourse] || {};
 
   return (
     <>
@@ -19,24 +19,22 @@ export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '' }) =
           </tr>
         </thead>
         <tbody>
-          {Object.entries(courseData).map(([courseId, { COs = {} }]) => (
-            Object.entries(COs).map(([coId, values]) => (
-              <tr key={coId}>
-                <td>{coId} ({courseId})</td>
-                {Array.isArray(values) ? (
-                  values.map((value, index) => <td key={index}>{value}</td>)
-                ) : (
-                  <td colSpan={11}>No data available</td>
-                )}
-              </tr>
-            ))
+          {Object.entries(courseData.COs || {}).map(([coId, values]) => (
+            <tr key={coId}>
+              <td>{coId} ({selectedCourse})</td>
+              {Array.isArray(values) ? (
+                values.map((value, index) => <td key={index}>{value}</td>)
+              ) : (
+                <td colSpan={11}>No data available</td>
+              )}
+            </tr>
           ))}
         </tbody>
       </table>
     </>
   );
 };
-//This
+
 CoPoMatrixTable.propTypes = {
   selectedCourse: PropTypes.string,
   selectedProgram: PropTypes.string,

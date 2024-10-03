@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import bsc_cs from "../json/bsc_cs.json";
 import bsc_it from "../json/bsc_it.json";
 import msc_it from "../json/msc_it.json";
@@ -7,53 +6,21 @@ import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
 
-const ClassDropdown = ({ selectedClass, onClassChange, classes }) => {
-  return (
-    <label className="fields">
-      Year:
-      <select name="year" value={selectedClass} onChange={onClassChange}>
-        <option value="">Select a year</option>
-        {classes.map((className) => (
-          <option key={className} value={className}>
-            {className}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-};
-
-ClassDropdown.propTypes = {
-  selectedClass: PropTypes.string,
-  onClassChange: PropTypes.func.isRequired,
-  classes: PropTypes.array.isRequired,
-};
-
 export const Home = () => {
   const [course, setCourse] = useState("");
-  const [year, setYear] = useState("");
   const [semester, setSemester] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [subject, setSubject] = useState("");
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [isProgramSelected, setProgramSelected] = useState(false);
-  
+
   const handleCourse = (e) => {
     setCourse(e.target.value);
-    setYear("");
     setSemester("");
     setSubject("");
     setFilteredCourses([]);
     setSubjectOptions([]);
     setProgramSelected(!!e.target.value);
-  };
-
-  const handleYear = (e) => {
-    setYear(e.target.value);
-    setSemester("");
-    setSubject("");
-    setFilteredCourses([]);
-    setSubjectOptions([]);
   };
 
   const handleSemester = (e) => {
@@ -63,33 +30,33 @@ export const Home = () => {
 
   const filterCourses = (semester, selectedSubject = subject) => {
     let programData;
-  
-    if (course && year) {
+
+    if (course) {
       const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
-  
+
       switch (course) {
         case "BSc CS":
           programData = bscCSSyllabus.program.find(
-            (program) => program.year === year && program.semester === semester
+            (program) => program.semester === semester
           );
           break;
         case "BSc IT":
           programData = bscITSyllabus.program.find(
-            (program) => program.year === year && program.semester === semester
+            (program) => program.semester === semester
           );
           break;
         case "MSc IT":
           programData = mscITSyllabus.program.find(
-            (program) => program.year === year && program.semester === semester
+            (program) => program.semester === semester
           );
           break;
         default:
           programData = null;
       }
     }
-  
+
     if (programData) {
       if (!selectedSubject) {
         setFilteredCourses(programData.courses);
@@ -131,12 +98,6 @@ export const Home = () => {
           </select>
         </label>
 
-        <ClassDropdown
-          selectedClass={year}
-          onClassChange={handleYear}
-          classes={["First", "Second", "Third"]}
-        />
-
         <label className="fields">
           Semester:
           <select name="semester" value={semester} onChange={handleSemester}>
@@ -164,7 +125,7 @@ export const Home = () => {
       </div>
 
       <div className="tables-container">
-        <Table program={filteredProgram()} programName={course}/>
+        {<Table program={filteredProgram()} programName={course}/>}
         <Table courses={filteredCourses} />
         <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> 
       </div>
