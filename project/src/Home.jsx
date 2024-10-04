@@ -29,44 +29,44 @@ export const Home = () => {
   };
 
   const filterCourses = (semester, selectedSubject = subject) => {
-    let programData;
+    let selectedProgramData;
 
     if (course) {
-      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2023-2024");
+      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
       const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
 
       switch (course) {
         case "BSc CS":
-          programData = bscCSSyllabus.program.find(
+          selectedProgramData = bscCSSyllabus?.program.find(
             (program) => program.semester === semester
           );
           break;
         case "BSc IT":
-          programData = bscITSyllabus.program.find(
+          selectedProgramData = bscITSyllabus?.program.find(
             (program) => program.semester === semester
           );
           break;
         case "MSc IT":
-          programData = mscITSyllabus.program.find(
+          selectedProgramData = mscITSyllabus?.program.find(
             (program) => program.semester === semester
           );
           break;
         default:
-          programData = null;
+          selectedProgramData = null;
       }
     }
 
-    if (programData) {
+    if (selectedProgramData) {
       if (!selectedSubject) {
-        setFilteredCourses(programData.courses);
+        setFilteredCourses(selectedProgramData.courses);
       } else {
-        const selectedCourse = programData.courses.filter(
+        const selectedCourse = selectedProgramData.courses.filter(
           (course) => course.name === selectedSubject
         );
         setFilteredCourses(selectedCourse);
       }
-      setSubjectOptions(programData.courses.map((course) => course.name));
+      setSubjectOptions(selectedProgramData.courses.map((course) => course.name));
     } else {
       setFilteredCourses([]);
       setSubjectOptions([]);
@@ -75,7 +75,7 @@ export const Home = () => {
 
   const filteredProgram = () => {
     if (course) {
-      return programData.program_outcomes[course];
+      return programData.program_outcomes[course] || [];
     }
     return [];
   };
@@ -125,9 +125,11 @@ export const Home = () => {
       </div>
 
       <div className="tables-container">
-        {<Table program={filteredProgram()} programName={course}/>}
-        <Table courses={filteredCourses} />
-        <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> 
+        {filteredProgram().length > 0 && (
+          <Table program={filteredProgram()} programName={course} />
+        )}
+        {filteredCourses.length > 0 && <Table courses={filteredCourses} />}
+        {subject && course && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} />}
       </div>
     </main>
   );

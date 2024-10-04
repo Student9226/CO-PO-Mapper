@@ -14,6 +14,7 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
             </tr>
           </thead>
           <tbody>
+          {courses.length === 0 && <p>No courses available for the selected program.</p>}
             {courses.map((course, index) => (
               <tr key={course.id}>
                 {courses.length>1 && (<td style={{textAlign:'center'}}>{index+1}</td>)}
