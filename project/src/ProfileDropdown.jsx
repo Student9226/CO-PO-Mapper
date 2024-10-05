@@ -1,20 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import './styles/profileDropdown.css'
 
-export const ProfileDropdown = ({ isOpen, onSelect}) => {
-  const navigate = (path)=>{
-    useNavigate(path);
-
-  }
+export const ProfileDropdown = ({isOpen, onSelect}) => {
   return (
     isOpen && (
       <div className="profile-dropdown">
         <ul>
-          <li><button onClick={()=>navigate('/profile')} tabIndex={0}>Profile</button></li>
-          <li><button onClick={()=>navigate('/about')} tabIndex={1}>About</button></li>
-          <li><button onClick={()=>navigate('/contact')} tabIndex={2}>Contact</button></li>
-          <li><button onClick={()=>navigate('/login')} tabIndex={3}>Log in</button></li>
+          <li onClick={() => onSelect('/profile')} tabIndex={0}>Profile</li>
+          <li onClick={() => onSelect('/about')} tabIndex={1}>About</li>
+          <li onClick={() => onSelect('/contact')} tabIndex={2}>Contact</li>
+          <li onClick={() => onSelect('/login')} tabIndex={3}>Log in</li>
         </ul>
       </div>
     )
@@ -23,5 +18,5 @@ export const ProfileDropdown = ({ isOpen, onSelect}) => {
 
 ProfileDropdown.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.string.isRequired,
 };

@@ -237,3 +237,7 @@ th {
   flex-direction: column;
   flex-grow: 1;
 }
+
+.td-center{
+  text-align: center;
+}

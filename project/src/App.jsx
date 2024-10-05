@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { Home } from './Home';
@@ -11,7 +11,8 @@ import { Profile } from './Profile';
 import { ProfileDropdown } from './ProfileDropdown';
 import './styles/App.css';
 
-const App = () => {
+export const App = () => {
+  const navigate = useNavigate(); 
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem('darkMode') === 'true'
   );
@@ -35,13 +36,11 @@ const App = () => {
     setSidebarOpen(false);
   };
 
-  const handleLogout = () => {
-    console.log('Logged out');
+  const handleDropdown = (path) => {
+    navigate(path);
+    setProfileDropdownOpen(false);
   };
-  
-  const handleDropdown = () => {
-    console.log('Logged out');
-  };
+
   return (
     <>
       <Router>
@@ -57,13 +56,8 @@ const App = () => {
           />
           
           {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
-          
           <Sidebar isOpen={sidebarOpen} onSelect={closeSidebar} />
-          <ProfileDropdown 
-            isOpen={profileDropdownOpen} 
-            onLogout={handleLogout} 
-            onSelect={handleDropdown}
-          />
+          <ProfileDropdown isOpen={profileDropdownOpen} onSelect={handleDropdown} />
           
           <main>
             <Routes>
@@ -84,4 +78,3 @@ const App = () => {
   );
 };
 
-export default App;
