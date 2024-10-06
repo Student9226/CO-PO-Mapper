@@ -1,22 +1,26 @@
-import PropTypes from "prop-types";
-import './styles/profileDropdown.css'
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import './styles/profileDropdown.css';
 
-export const ProfileDropdown = ({isOpen, onSelect}) => {
+export const ProfileDropdown = ({ isOpen, onSelect }) => {
+  const navigate = useNavigate();
+
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <div className="profile-dropdown">
-        <ul>
-          <li onClick={() => onSelect('/profile')} tabIndex={0}>Profile</li>
-          <li onClick={() => onSelect('/about')} tabIndex={1}>About</li>
-          <li onClick={() => onSelect('/contact')} tabIndex={2}>Contact</li>
-          <li onClick={() => onSelect('/login')} tabIndex={3}>Log in</li>
-        </ul>
-      </div>
-    )
+    <div className="profile-dropdown" onClick={(e) => e.stopPropagation()}>
+      <ul>
+        <li onClick={() => { navigate('/profile'); onSelect(); }}>Profile</li>
+        <li onClick={() => { navigate('/about'); onSelect(); }}>About</li>
+        <li onClick={() => { navigate('/contact'); onSelect(); }}>Contact</li>
+        <li onClick={() => { console.log('Clicked Login'); }}>Log in</li>
+<li onClick={() => { console.log('hi'); }}>Click</li>
+      </ul>
+    </div>
   );
 };
 
 ProfileDropdown.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onSelect: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool,
+  onSelect: PropTypes.func,
 };

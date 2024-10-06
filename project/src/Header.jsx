@@ -18,11 +18,12 @@ export const Header = ({ toggleDarkMode, darkMode, toggleSidebar, profileImg, to
   useEffect(() => {
     const handleClickOutside = (event) => {
       const profileDiv = document.querySelector('.profile');
-      if (profileDiv && !profileDiv.contains(event.target)) {
-        onSelect(); 
+      const dropdownDiv = document.querySelector('.profile-dropdown');
+      if (profileDiv && !profileDiv.contains(event.target) && dropdownDiv && !dropdownDiv.contains(event.target)) {
+        onSelect(); // Close the dropdown if the click is outside
       }
     };
-
+  
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);

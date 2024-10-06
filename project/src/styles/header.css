@@ -9,7 +9,7 @@ top: 0;
 text-align: center;
 color: white;
 width: 100%;
-z-index: 1000;
+z-index: 501;
 border-bottom: 1px solid var(--sidebar-border);
 }
 
