@@ -5,6 +5,7 @@ import msc_it from "../json/msc_it.json";
 import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
+import { generateExcel, generateDoc } from "./reportGenerator"; 
 
 export const Home = () => {
   const [course, setCourse] = useState("");
@@ -13,6 +14,7 @@ export const Home = () => {
   const [subject, setSubject] = useState("");
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [isProgramSelected, setProgramSelected] = useState(false);
+  const [docFormat, setDocFormat] = useState(""); 
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
@@ -29,44 +31,44 @@ export const Home = () => {
   };
 
   const filterCourses = (semester, selectedSubject = subject) => {
-    let selectedProgramData;
+    let programData;
 
     if (course) {
-      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
+      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
 
       switch (course) {
         case "BSc CS":
-          selectedProgramData = bscCSSyllabus?.program.find(
+          programData = bscCSSyllabus.program.find(
             (program) => program.semester === semester
           );
           break;
         case "BSc IT":
-          selectedProgramData = bscITSyllabus?.program.find(
+          programData = bscITSyllabus.program.find(
             (program) => program.semester === semester
           );
           break;
         case "MSc IT":
-          selectedProgramData = mscITSyllabus?.program.find(
+          programData = mscITSyllabus.program.find(
             (program) => program.semester === semester
           );
           break;
         default:
-          selectedProgramData = null;
+          programData = null;
       }
     }
 
-    if (selectedProgramData) {
+    if (programData) {
       if (!selectedSubject) {
-        setFilteredCourses(selectedProgramData.courses);
+        setFilteredCourses(programData.courses);
       } else {
-        const selectedCourse = selectedProgramData.courses.filter(
+        const selectedCourse = programData.courses.filter(
           (course) => course.name === selectedSubject
         );
         setFilteredCourses(selectedCourse);
       }
-      setSubjectOptions(selectedProgramData.courses.map((course) => course.name));
+      setSubjectOptions(programData.courses.map((course) => course.name));
     } else {
       setFilteredCourses([]);
       setSubjectOptions([]);
@@ -75,7 +77,7 @@ export const Home = () => {
 
   const filteredProgram = () => {
     if (course) {
-      return programData.program_outcomes[course] || [];
+      return programData.program_outcomes[course];
     }
     return [];
   };
@@ -85,9 +87,37 @@ export const Home = () => {
     filterCourses(semester, e.target.value); 
   };
 
+  const handleDocFormat = (e) => {
+    setDocFormat(e.target.value); 
+  };
+
+  const generateReport = () => {
+    const reportData = {
+      course,
+      semester,
+      subject,
+      program: filteredProgram(),
+      courses: filteredCourses,
+    };
+ if(course && semester && subject){
+    if (docFormat === "Excel") {
+      generateExcel(reportData); 
+    } else if (docFormat === "Doc" || docFormat === "Docx") {
+      generateDoc(reportData, docFormat); 
+    }else if(docFormat === ""){
+      alert('Please select a document format to export.')
+    }
+  }else{
+    alert("Please input the required data before exporting.")
+  }}
+
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="form-fields">
+      <label className="fields">
+          Instructor&apos;s Name:
+          <input type='text' name='name' defaultValue="Enter a name"></input>
+        </label>
         <label className="fields">
           Program:
           <select name="course" value={course} onChange={handleCourse}>
@@ -122,15 +152,23 @@ export const Home = () => {
             ))}
           </select>
         </label>
+        <label className="fields">
+          Document Format:
+          <select name="docFormat" value={docFormat} onChange={handleDocFormat}>
+            <option value="">Select a format</option>
+            <option value="Excel">Excel</option>
+            <option value="Doc">Doc</option>
+            <option value="Docx">Docx</option>
+            <option value="PDF">PDF</option>
+          </select>
+        </label>
+          <button onClick={generateReport}>Generate Report</button>
       </div>
 
       <div className="tables-container">
-        {filteredProgram().length > 0 && (
-          <Table program={filteredProgram()} programName={course} />
-        )}
-        {filteredCourses.length > 0 && <Table courses={filteredCourses} />}
-        {subject && course && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} />}
-      </div>
+        {<Table program={filteredProgram()} programName={course}/>}
+        <Table courses={filteredCourses} />
+{ subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> }</div>
     </main>
   );
 };

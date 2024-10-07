@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import coPoMatrix from '../json/co_po_matrix.json';
 
-export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '' }) => {
+export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '', selectedSemester='' }) => {
   if (!selectedCourse || !selectedProgram) return null;
   
   const courseData = coPoMatrix[selectedProgram]?.[selectedCourse] || {};
   const cos = courseData.COs || {};
 
-  if (!Object.keys(cos).length) {
+  if (!Object.keys(cos).length || selectedSemester) {
     return <p>No CO-PO mapping data available for {selectedCourse}.</p>;
   }
 
@@ -47,7 +47,7 @@ export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '' }) =
               {Array.isArray(values) ? (
                 values.map((value, index) => <td className='td-center' key={index}>{value}</td>)
               ) : (
-                <td className='td-center' colSpan={poCount}>No data available</td>
+                <td className='td-center' colSpan={poCount}>No data available of the selected semester of {coId} for now. Please try at a later time.</td>
               )}
             </tr>
           ))}
@@ -64,4 +64,5 @@ export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '' }) =
 CoPoMatrixTable.propTypes = {
   selectedCourse: PropTypes.string,
   selectedProgram: PropTypes.string,
+  selectedSemester: PropTypes.string,
 };
