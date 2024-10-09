@@ -3,7 +3,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 padding: 10px 10px;
-background-color: #000016;
+background: linear-gradient(#000016,#00016f);
 position: sticky;
 top: 0;
 text-align: center;

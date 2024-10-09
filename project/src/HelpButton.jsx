@@ -10,12 +10,15 @@ export const HelpButton = () => {
   const inputRef = useRef(null); 
   const startX = useRef(null);
   const startY = useRef(null);
-  const startWidth = useRef(null);
-  const startHeight = useRef(null);
   const dragRef = useRef(null);
+  const urls = [
+    "https://ominous-space-computing-machine-j6765xw6pg62pgg5-3000.app.github.dev/ask", 
+    "https://copomapper.surge.sh/ask",
+    "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/ask"
+  ];
 
   const handleClick = () => {
-    setIsChatOpen((prevState) => !prevState); 
+    setIsChatOpen(prevState => !prevState); 
   };
 
   const handleSubmit = async () => {
@@ -23,52 +26,51 @@ export const HelpButton = () => {
       alert("Please enter a question");
       return;
     }
+    
+    // Update chat history with user question immediately
+    setChatHistory(prev => [...prev, { role: "user", content: question }]);
+    setQuestion(""); 
 
-    // Add user message to chat history
-    setChatHistory([...chatHistory, { role: "user", content: question }]);
-    setQuestion(""); // Clear input field
-
-    try {
-      const response = await fetch(
-        "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/ask",
-        {
+    for (let url of urls) {
+      try {
+        const response = await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ question }),
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Add AI response to chat history
+          setChatHistory(prev => [
+            ...prev,
+            { role: "assistant", content: data.answer },
+          ]);
+          break; // Exit loop on successful response
+        } else {
+          setChatHistory(prev => [
+            ...prev,
+            { role: "assistant", content: "Error: " + data.error },
+          ]);
         }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Add AI response to chat history
-        setChatHistory([
-          ...chatHistory,
-          { role: "user", content: question },
-          { role: "assistant", content: data.answer },
+      } catch (error) {
+        console.error("Error:", error);
+        setChatHistory(prev => [
+          ...prev,
+          { role: "assistant", content: "Error connecting to the server" },
         ]);
-      } else {
-        setChatHistory([
-          ...chatHistory,
-          { role: "user", content: question },
-          { role: "assistant", content: "Error: " + data.error },
-        ]);
+        // Break the loop if there is a connectivity error
+        break;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setChatHistory([
-        ...chatHistory,
-        { role: "user", content: question },
-        { role: "assistant", content: "Error connecting to the server" },
-      ]);
     }
   };
 
   useEffect(() => {
     if (isChatOpen && inputRef.current) {
-      inputRef.current.focus(); // Focus the input when the chat window opens
+      inputRef.current.focus(); 
     }
   }, [isChatOpen]);
 
@@ -81,12 +83,11 @@ export const HelpButton = () => {
         helpButtonRef.current &&
         !helpButtonRef.current.contains(e.target)
       ) {
-        setIsChatOpen(false); // Close chat window if click is outside
+        setIsChatOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -106,16 +107,16 @@ export const HelpButton = () => {
   };
 
   const handleMouseUp = () => {
+    dragRef.current = false; // Reset dragging state
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseDown = (e) => {
     e.preventDefault();
+    dragRef.current = true; // Set dragging state to true
     startX.current = e.clientX;
     startY.current = e.clientY;
-    startWidth.current = chatWindowRef.current.offsetWidth;
-    startHeight.current = chatWindowRef.current.offsetHeight;
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);

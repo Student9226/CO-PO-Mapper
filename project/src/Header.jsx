@@ -20,7 +20,7 @@ export const Header = ({ toggleDarkMode, darkMode, toggleSidebar, profileImg, to
       const profileDiv = document.querySelector('.profile');
       const dropdownDiv = document.querySelector('.profile-dropdown');
       if (profileDiv && !profileDiv.contains(event.target) && dropdownDiv && !dropdownDiv.contains(event.target)) {
-        onSelect(); // Close the dropdown if the click is outside
+        onSelect(); 
       }
     };
   
@@ -41,7 +41,7 @@ export const Header = ({ toggleDarkMode, darkMode, toggleSidebar, profileImg, to
       <ProfileDropdown 
         isOpen={dropdownOpen} 
         onLogout={handleLogout} 
-        onSelect={onSelect} // Pass the onSelect prop here
+        onSelect={onSelect} 
       />
       <h1>CO PO Mapper</h1>
       <div className="dark-mode-toggle" onClick={toggleDarkMode} aria-label="Toggle Dark Mode" role="button">

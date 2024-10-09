@@ -15,6 +15,7 @@ export const Home = () => {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [isProgramSelected, setProgramSelected] = useState(false);
   const [docFormat, setDocFormat] = useState(""); 
+  const [placeholder, setPlaceholder] = useState("Enter a Name");
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
@@ -34,7 +35,7 @@ export const Home = () => {
     let programData;
 
     if (course) {
-      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2023-2024");
+      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
       const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
 
@@ -111,12 +112,13 @@ export const Home = () => {
     alert("Please input the required data before exporting.")
   }}
 
+
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="form-fields">
       <label className="fields">
           Instructor&apos;s Name:
-          <input type='text' name='name' defaultValue="Enter a name"></input>
+          <input type='text' placeholder={placeholder} onFocus={()=>setPlaceholder('')} onBlur={()=>setPlaceholder('Enter a Name')}></input>
         </label>
         <label className="fields">
           Program:

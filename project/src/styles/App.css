@@ -9,6 +9,8 @@
   --chat-window-background: #ffffff;
   --special-button-hover: #0056b3;
   --special-button: #007bff;
+  --special-button1-hover: #00ff00;
+  --special-button1: #009f0f;
   --chat-message-user: #7aff7a;
   --chat-message-assistant: #ff8282;
 }
@@ -113,8 +115,6 @@ button:hover {
   position: relative;
   transition: left 0.3s ease, height 0.3s ease;
   margin-top: 20px;
-  box-shadow: 0 0 0.3125rem rgba(0, 123, 255, 0.5);
-
 }
 
 .form-fields {
@@ -157,17 +157,17 @@ button:hover {
 }
 
 .form-container button {
-  background-color: var(--special-button);
+  background-color: var(--special-button1);
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
+  margin: 0 auto 0 auto;
 }
 
 .form-container button:hover {
-  background-color: var(--special-button-hover);
+  background-color: var(--special-button1-hover);
 }
 
 main {
@@ -233,4 +233,8 @@ th {
 
 .td-center{
   text-align: center;
+}
+
+input::placeholder{
+  color: var(--text-color)
 }
