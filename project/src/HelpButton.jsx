@@ -12,7 +12,7 @@ export const HelpButton = () => {
   const startY = useRef(null);
   const dragRef = useRef(null);
   const urls = [
-    "https://ominous-space-computing-machine-j6765xw6pg62pgg5-3000.app.github.dev/ask", 
+    "https://glowing-train-j6765xw6x762qj75-5000.app.github.dev/ask", 
     "https://copomapper.surge.sh/ask",
     "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/ask"
   ];
@@ -27,7 +27,6 @@ export const HelpButton = () => {
       return;
     }
     
-    // Update chat history with user question immediately
     setChatHistory(prev => [...prev, { role: "user", content: question }]);
     setQuestion(""); 
 

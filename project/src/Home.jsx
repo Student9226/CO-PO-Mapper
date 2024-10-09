@@ -6,6 +6,7 @@ import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
 import { generateExcel, generateDoc } from "./reportGenerator"; 
+import { CourseProgramManager } from "./CourseProgramManager"; // Import the new component
 
 export const Home = () => {
   const [course, setCourse] = useState("");
@@ -78,7 +79,7 @@ export const Home = () => {
 
   const filteredProgram = () => {
     if (course) {
-      return programData.program_outcomes[course];
+      return programData.program_outcomes[course] || [];
     }
     return [];
   };
@@ -170,7 +171,8 @@ export const Home = () => {
       <div className="tables-container">
         {<Table program={filteredProgram()} programName={course}/>}
         <Table courses={filteredCourses} />
-{ subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> }</div>
+        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> }</div>
+        <CourseProgramManager course={course} semester={semester} subject={subject} setFilteredCourses={setFilteredCourses} setSubjectOptions={setSubjectOptions} />
     </main>
   );
 };
