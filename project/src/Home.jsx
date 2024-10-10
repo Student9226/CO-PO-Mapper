@@ -18,6 +18,7 @@ export const Home = () => {
   const [placeholder, setPlaceholder] = useState("Enter a Name");
   const [instructorName, setInstructorName] = useState(""); 
   const [coPoMatrixData, setCoPoMatrixData] = useState([]);
+  const [isSwitchOn, toggleSwitch] = useState(true);
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
@@ -121,6 +122,10 @@ export const Home = () => {
     setCoPoMatrixData(coPoData);
   };
 
+  const handleSwitch=()=>{
+    toggleSwitch(prev => !prev)
+  }
+
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="form-fields">
@@ -172,7 +177,8 @@ export const Home = () => {
           </select>
         </label>
           <button onClick={generateReport}>Generate Report</button>
-      </div>
+          <div onClick={handleSwitch} className="switch">Allow editing<span style={{background: isSwitchOn? '#00ff00':'rgba(0,128,0,0.75)'}}></span></div>
+        </div>
 
       <div className="tables-container">
         {<Table program={filteredProgram()} programName={course}/>}

@@ -9,8 +9,8 @@
   --chat-window-background: #ffffff;
   --special-button-hover: #0056b3;
   --special-button: #007bff;
-  --special-button1-hover: #00ff00;
-  --special-button1: #009f0f;
+  --special-button1: #00c400;
+  --special-button1-hover: #009f0f;
   --chat-message-user: #7aff7a;
   --chat-message-assistant: #ff8282;
 }
@@ -85,15 +85,13 @@ select {
   height: 40px;
   margin-top: 10px;
   background-color: var(--sidebar-background);
-  color: white;
 }
 
 button {
-  margin-top: 10px;
   background-color: var(--special-button);
-  color: white;
   border: none;
   padding: 8px 12px;
+  margin-top: 10px;
   margin-left: 15px;
   cursor: pointer;
   border-radius: 5px;
@@ -237,4 +235,21 @@ th {
 
 input::placeholder{
   color: var(--text-color)
+}
+
+.switch{
+  background-color: var(--special-button);
+  border: none;
+  padding: 8px 0 8px 8px;
+  margin: 10px auto auto auto;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+}
+
+.switch span{
+  padding: 8px 12px;
+  margin-left: 15px;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  border-left: 1px solid var(--text-color);
 }
