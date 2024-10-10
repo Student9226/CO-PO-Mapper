@@ -6,7 +6,6 @@ import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
 import { generateExcel, generateDoc } from "./reportGenerator"; 
-import { CourseProgramManager } from "./CourseProgramManager"; // Import the new component
 
 export const Home = () => {
   const [course, setCourse] = useState("");
@@ -17,6 +16,8 @@ export const Home = () => {
   const [isProgramSelected, setProgramSelected] = useState(false);
   const [docFormat, setDocFormat] = useState(""); 
   const [placeholder, setPlaceholder] = useState("Enter a Name");
+  const [instructorName, setInstructorName] = useState(""); 
+  const [coPoMatrixData, setCoPoMatrixData] = useState([]);
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
@@ -79,7 +80,7 @@ export const Home = () => {
 
   const filteredProgram = () => {
     if (course) {
-      return programData.program_outcomes[course] || [];
+      return programData.program_outcomes[course];
     }
     return [];
   };
@@ -95,31 +96,37 @@ export const Home = () => {
 
   const generateReport = () => {
     const reportData = {
+      instructor: instructorName,  
       course,
       semester,
       subject,
       program: filteredProgram(),
       courses: filteredCourses,
+      coPoMatrix: coPoMatrixData,  
     };
- if(course && semester && subject){
-    if (docFormat === "Excel") {
-      generateExcel(reportData); 
-    } else if (docFormat === "Doc" || docFormat === "Docx") {
-      generateDoc(reportData, docFormat); 
-    }else if(docFormat === ""){
-      alert('Please select a document format to export.')
+  
+    if (course && semester && subject) {
+      if (docFormat === "Excel") {
+        generateExcel(reportData); 
+      } else if (docFormat === "Docx") {
+        generateDoc(reportData, docFormat); 
+      } else if (docFormat === "") {
+        alert('Please select a document format to export.');
+      }
+    } else {
+      alert("Please input the required data before exporting.");
     }
-  }else{
-    alert("Please input the required data before exporting.")
-  }}
-
+  };
+  const handleCoPoMatrixData = (coPoData) => {
+    setCoPoMatrixData(coPoData);
+  };
 
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="form-fields">
       <label className="fields">
           Instructor&apos;s Name:
-          <input type='text' placeholder={placeholder} onFocus={()=>setPlaceholder('')} onBlur={()=>setPlaceholder('Enter a Name')}></input>
+          <input type='text' value={instructorName} onChange={(e) => setInstructorName(e.target.value)} placeholder={placeholder} onFocus={()=>setPlaceholder('')} onBlur={()=>setPlaceholder('Enter a Name')}></input>
         </label>
         <label className="fields">
           Program:
@@ -160,7 +167,6 @@ export const Home = () => {
           <select name="docFormat" value={docFormat} onChange={handleDocFormat}>
             <option value="">Select a format</option>
             <option value="Excel">Excel</option>
-            <option value="Doc">Doc</option>
             <option value="Docx">Docx</option>
             <option value="PDF">PDF</option>
           </select>
@@ -171,8 +177,7 @@ export const Home = () => {
       <div className="tables-container">
         {<Table program={filteredProgram()} programName={course}/>}
         <Table courses={filteredCourses} />
-        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} /> }</div>
-        <CourseProgramManager course={course} semester={semester} subject={subject} setFilteredCourses={setFilteredCourses} setSubjectOptions={setSubjectOptions} />
+        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData}/> }</div>
     </main>
   );
 };

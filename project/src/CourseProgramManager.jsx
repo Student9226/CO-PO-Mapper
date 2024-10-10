@@ -34,6 +34,7 @@ export const CourseProgramManager = ({ course, semester, subject, setFilteredCou
       console.error("Error fetching program outcomes:", error);
     }
   };
+  console.log("programOutcomes:", programOutcomes);
 
   return (
     <div>
