@@ -5,7 +5,7 @@ import msc_it from "../json/msc_it.json";
 import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
-import { generateExcel, generateDoc } from "./reportGenerator"; 
+import { generateExcel, generateDoc, generatePDF } from "./reportGenerator"; 
 
 export const Home = () => {
   const [course, setCourse] = useState("");
@@ -81,7 +81,13 @@ export const Home = () => {
 
   const filteredProgram = () => {
     if (course) {
-      return programData.program_outcomes[course];
+      const programOutcomes = programData.program_outcomes[course];
+      if (programOutcomes) {
+        return programOutcomes;
+      } else {
+        console.log(`No program outcomes found for course: ${course}`);
+        return [];
+      }
     }
     return [];
   };
@@ -97,20 +103,21 @@ export const Home = () => {
 
   const generateReport = () => {
     const reportData = {
-      instructor: instructorName,  
+      instructor: instructorName,
       course,
       semester,
       subject,
       program: filteredProgram(),
       courses: filteredCourses,
-      coPoMatrix: coPoMatrixData,  
+      coPoMatrix: coPoMatrixData,
     };
-  
     if (course && semester && subject) {
       if (docFormat === "Excel") {
-        generateExcel(reportData); 
+        generateExcel(reportData);
       } else if (docFormat === "Docx") {
-        generateDoc(reportData, docFormat); 
+        generateDoc(reportData, docFormat);
+      } else if (docFormat === "PDF") {
+        generatePDF(reportData); 
       } else if (docFormat === "") {
         alert('Please select a document format to export.');
       }
@@ -118,6 +125,8 @@ export const Home = () => {
       alert("Please input the required data before exporting.");
     }
   };
+  
+
   const handleCoPoMatrixData = (coPoData) => {
     setCoPoMatrixData(coPoData);
   };
@@ -177,7 +186,8 @@ export const Home = () => {
           </select>
         </label>
           <button onClick={generateReport}>Generate Report</button>
-          <div onClick={handleSwitch} className="switch">Allow editing<span style={{background: isSwitchOn? '#00ff00':'rgba(0,128,0,0.75)'}}></span></div>
+          {subject && <div onClick={handleSwitch} className="switch">Allow editing<span style={{background: isSwitchOn? 'linear-gradient(to left, white 0%, green 90%)':'linear-gradient(to bottom, #949494 0%, #292929 100%)'}}></span></div>}
+        {subject && <label className="switch">Allow editing<input onClick={handleSwitch} type="checkbox"></input><span className="slider"></span></label>}
         </div>
 
       <div className="tables-container">

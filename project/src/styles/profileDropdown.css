@@ -11,6 +11,7 @@ color: var(--text-color);
 width: 200px;
 min-height: 50px;
 visibility: visible;
+user-select: none;
 }
 
 .profile-dropdown ul {

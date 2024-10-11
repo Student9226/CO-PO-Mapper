@@ -4,13 +4,13 @@
   --sidebar-background: #9c9c9c;
   --sidebar-item-background: #e7e7e7;
   --sidebar-item-color: #000000;
-  --sidebar-item-hover: #cccccc;
+  --sidebar-item-hover: #222222;
   --sidebar-border: #383838;
   --chat-window-background: #ffffff;
   --special-button-hover: #0056b3;
   --special-button: #007bff;
-  --special-button1: #00c400;
-  --special-button1-hover: #009f0f;
+  --special-button1: #009f0f;
+  --special-button1-hover: #006b17;
   --chat-message-user: #7aff7a;
   --chat-message-assistant: #ff8282;
 }
@@ -21,7 +21,7 @@ body.dark-mode {
   --sidebar-background: #181818;
   --sidebar-item-background: #535353;
   --sidebar-item-color: #e0e0e0;
-  --sidebar-item-hover: #555555;
+  --sidebar-item-hover: #ebebeb;
   --sidebar-border: #c0c0c0;
   --chat-window-background: #252525;
   --chat-message-user: #004100;
@@ -89,7 +89,7 @@ select {
 
 button {
   background-color: var(--special-button);
-  border: none;
+  border: 1px solid var(--);
   padding: 8px 12px;
   margin-top: 10px;
   margin-left: 15px;
@@ -237,19 +237,56 @@ input::placeholder{
   color: var(--text-color)
 }
 
-.switch{
-  background-color: var(--special-button);
-  border: none;
-  padding: 8px 0 8px 8px;
-  margin: 10px auto auto auto;
-  border-radius: 5px;
-  border: 1px solid var(--text-color);
+
+/* */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-.switch span{
-  padding: 8px 12px;
-  margin-left: 15px;
-  cursor: pointer;
-  border-radius: 0 5px 5px 0;
-  border-left: 1px solid var(--text-color);
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
