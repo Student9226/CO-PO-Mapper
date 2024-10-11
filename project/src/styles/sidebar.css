@@ -1,22 +1,7 @@
 .sidebar-container {
-    border-top: 2px solid var(--sidebar-item-color); 
-    border-bottom: 2px solid var(--sidebar-item-color);
+    border-top: 2px solid grey; 
+    border-bottom: 2px solid grey;
     margin-top: 100px; 
-  }
-  
-  aside .sidebar-item {
-    background: var(--sidebar-item-background);
-    color: var(--sidebar-item-text-color);
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 10px 0;
-    transition: background-color 0.3s;
-    user-select: none;
-  }
-  
-  aside .sidebar-item:hover {
-    background-color: var(--sidebar-item-hover);
   }
   
   .sidebar-item {

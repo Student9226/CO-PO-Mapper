@@ -137,6 +137,7 @@ export const Home = () => {
 
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
+      <div className="main-border">
       <div className="form-fields">
       <label className="fields">
           Instructor&apos;s Name:
@@ -185,10 +186,10 @@ export const Home = () => {
             <option value="PDF">PDF</option>
           </select>
         </label>
-          <button onClick={generateReport}>Generate Report</button>
-          {subject && <div onClick={handleSwitch} className="switch">Allow editing<span style={{background: isSwitchOn? 'linear-gradient(to left, white 0%, green 90%)':'linear-gradient(to bottom, #949494 0%, #292929 100%)'}}></span></div>}
-        {subject && <label className="switch">Allow editing<input onClick={handleSwitch} type="checkbox"></input><span className="slider"></span></label>}
-        </div>
+          <button onClick={generateReport} style={{border: '1px solid var(--text-color)'}}>Generate Report</button>
+          <label className="switch">Allow editing<input onClick={handleSwitch} type="checkbox" value={isSwitchOn}/><span className="slider"></span></label>
+      </div>
+      </div>
 
       <div className="tables-container">
         {<Table program={filteredProgram()} programName={course}/>}
