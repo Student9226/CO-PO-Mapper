@@ -204,7 +204,7 @@ table:first-child{
 
 th,
 td {
-  border: 1px solid var(--sidebar-border);
+  border: 1px solid var(--text-color); 
   padding: 8px;
   text-align: left;
 }
@@ -263,7 +263,7 @@ input::placeholder{
   cursor: pointer;
   width: 60px; 
   height: 34px; 
-  background-color: rgb(138, 0, 0);  transition: background-color 0.25s;
+  background-color: rgb(255, 0, 0);  transition: background-color 0.25s;
   border-radius: 0 10px 10px 0;
   border-left: 1px solid var(--text-color);
   transition: background-color 0.5s;
@@ -272,13 +272,12 @@ input::placeholder{
 .slider:before {
   position: absolute;
   content: "";
-  height: 34px;
+  height: 26px;
   width: 26px;
-  left: 0px;
-  bottom: 0px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   transition: transform 0.25s;
-  border-radius: 0 10px 10px 0;
 }
 
 input:checked + .slider {
@@ -290,7 +289,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(34px); 
+  transform: translateX(26px); 
 }
 
 .switch:active{
@@ -299,35 +298,20 @@ input:checked + .slider:before {
 }
 
 .list {
-  border: 1px solid var(--sidebar-border);
-  border-radius: 5px;
-  padding: 8px;
-  margin: 10px 0;
-  background-color: var(--background-color);
-  transition: background-color 0.3s ease;
+  font-family: inherit;
+  font-size: inherit; 
+  color: var(--text-color); 
+  background: var(--background-color);
 }
 
-.list input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--sidebar-border);
-  border-radius: 5px;
-  color: var(--text-color);
-  background-color: var(--background-color);
+.list textarea {
+  border: 1px solid var(--text-color); 
+  border-radius: 5px; /* Rounded corners */
+  width: 100%; /* Full width */
+  resize: none; /* Prevent resizing */
+  background-color: var(--background-color); /* Match background color */
 }
 
-.list input:focus {
-  outline: none;
-  border-color: var(--special-button);
-  box-shadow: 0 0 0.3125rem rgba(0, 123, 255, 0.5);
-}
-
-.list ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.list li {
-  padding: 4px 0;
+.list:active{
+  border: 0 0 1px #2196F3; 
 }

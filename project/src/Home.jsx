@@ -1,8 +1,5 @@
-import { useState } from "react";
-import bsc_cs from "../json/bsc_cs.json";
-import bsc_it from "../json/bsc_it.json";
-import msc_it from "../json/msc_it.json";
-import programData from "../json/program.json";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
 import { generateExcel, generateDoc, generatePDF } from "./reportGenerator"; 
@@ -18,7 +15,74 @@ export const Home = () => {
   const [placeholder, setPlaceholder] = useState("Enter a Name");
   const [instructorName, setInstructorName] = useState(""); 
   const [coPoMatrixData, setCoPoMatrixData] = useState([]);
-  const [isSwitchOn, toggleSwitch] = useState(true);
+  const [isSwitchOn, toggleSwitch] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState(''); 
+  const [selectedCourse, setSelectedCourse] = useState('');  
+  const [editableCourses, setEditableCourses] = useState([]);
+  const [newMapping, setNewMapping] = useState([]);
+  
+  const fetchCourseData = async (course) => {
+    let url = "";
+  
+    switch (course) {
+      case "BSc CS":
+        url = "/get_course/BSc%20CS"; // Use encoded space
+        break;
+      case "BSc IT":
+        url = "/get_course/BSc%20IT";
+        break;
+      case "MSc IT":
+        url = "/get_course/MSc%20IT";
+        break;
+      default:
+        console.error("Invalid course selected");
+        return null;
+    }
+  
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching ${course} data:`, error);
+      return null;
+    }
+  };
+  
+  
+  const fetchProgramOutcomes = async (program) => {
+    try {
+      const response = await axios.get(`/get_program/${program}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching ${program} outcomes:`, error);
+      return [];
+    }
+  };
+
+  const handleMapOutcomes = async () => {
+    try {
+      const response = await fetch('https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          program: selectedProgram,
+          course_outcomes: editableCourses.map(course => course.outcomes).flat(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data)
+      setNewMapping(data);
+    } catch (error) {
+      console.error('Error mapping outcomes:', error);
+    }
+  };
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
@@ -34,35 +98,21 @@ export const Home = () => {
     filterCourses(e.target.value);
   };
 
-  const filterCourses = (semester, selectedSubject = subject) => {
-    let programData;
-
-    if (course) {
-      const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
-      const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
-      const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
-
-      switch (course) {
-        case "BSc CS":
-          programData = bscCSSyllabus.program.find(
-            (program) => program.semester === semester
-          );
-          break;
-        case "BSc IT":
-          programData = bscITSyllabus.program.find(
-            (program) => program.semester === semester
-          );
-          break;
-        case "MSc IT":
-          programData = mscITSyllabus.program.find(
-            (program) => program.semester === semester
-          );
-          break;
-        default:
-          programData = null;
-      }
+  const filterCourses = async (semester, selectedSubject = subject) => {
+    const courseData = await fetchCourseData(course);
+  
+    if (!courseData) {
+      setFilteredCourses([]);
+      setSubjectOptions([]);
+      return;
     }
-
+  
+    const syllabus = courseData.syllabi.find((s) => s.syllabus_year === "2023-2024"); // Or the appropriate year
+  
+    const programData = syllabus?.program.find(
+      (program) => program.semester === semester
+    );
+  
     if (programData) {
       if (!selectedSubject) {
         setFilteredCourses(programData.courses);
@@ -79,18 +129,18 @@ export const Home = () => {
     }
   };
 
-  const filteredProgram = () => {
-    if (course) {
-      const programOutcomes = programData.program_outcomes[course];
-      if (programOutcomes) {
-        return programOutcomes;
-      } else {
-        console.log(`No program outcomes found for course: ${course}`);
-        return [];
-      }
+  const filteredProgram = async () => {
+  if (course) {
+    const programOutcomes = await fetchProgramOutcomes(course);
+    if (programOutcomes?.outcomes) {
+      return programOutcomes.outcomes;
+    } else {
+      console.log(`No program outcomes found for course: ${course}`);
+      return [];
     }
-    return [];
-  };
+  }
+  return [];
+};
 
   const handleSubject = (e) => {
     setSubject(e.target.value);
@@ -134,7 +184,15 @@ export const Home = () => {
   const handleSwitch=()=>{
     toggleSwitch(prev => !prev)
   }
-
+  const func=async()=>{
+    try {
+      const response = await fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_course/BSC%20CS");
+      const data = await response.json();
+      console.log("Fetched Program Data:", data);
+    } catch (error) {
+      console.error("Error fetching program data:", error);
+    }
+}
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="main-border">
@@ -186,15 +244,16 @@ export const Home = () => {
             <option value="PDF">PDF</option>
           </select>
         </label>
-          <button onClick={generateReport} style={{border: '1px solid var(--text-color)'}}>Generate Report</button>
+          <button onClick={generateReport} >Generate Report</button>
           <label className="switch"><span>Allow editing</span><input onClick={handleSwitch} type="checkbox" value={isSwitchOn}/><span className="slider"></span></label>
+          <button onClick={handleMapOutcomes}>Map Outcomes</button>
+          </div>
       </div>
-      </div>
-
+      <button onClick={func}/>
       <div className="tables-container">
         {<Table program={filteredProgram()} programName={course} isEditable={isSwitchOn}/>}
         <Table courses={filteredCourses} isEditable={isSwitchOn}/>
-        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}</div>
+        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} newMapping={newMapping} onDataReady={handleCoPoMatrixData} />}</div>
     </main>
   );
 };
