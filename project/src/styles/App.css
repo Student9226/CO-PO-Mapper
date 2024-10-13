@@ -123,7 +123,6 @@ button:hover {
   border: 1px solid var(--sidebar-border);
   border-radius: 0.625rem 0 0 0.625rem;
   padding: 20px;
-  margin-left: 1%;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 
@@ -247,7 +246,9 @@ input::placeholder{
   border-radius: 10px;
   padding-left: 5px;
   user-select: none;
-  color: var(--background-color)
+  color: var(--background-color);
+  transition: var(--background-color) 1s;
+  background: linear-gradient(to bottom, rgba(var(--sidebar-background),0.5) 50%, var(--sidebar-border) 100%);
 }
 
 .switch input {
@@ -262,10 +263,10 @@ input::placeholder{
   cursor: pointer;
   width: 60px; 
   height: 34px; 
-  background-color: var(--sidebar-item-background); 
-  transition: background-color 0.25s;
-  border-left: 1px solid var(--sidebar-border);
+  background-color: rgb(138, 0, 0);  transition: background-color 0.25s;
   border-radius: 0 10px 10px 0;
+  border-left: 1px solid var(--text-color);
+  transition: background-color 0.5s;
 }
 
 .slider:before {
@@ -273,12 +274,11 @@ input::placeholder{
   content: "";
   height: 34px;
   width: 26px;
-  left: 1px;
+  left: 0px;
   bottom: 0px;
   background-color: white;
   transition: transform 0.25s;
   border-radius: 0 10px 10px 0;
-
 }
 
 input:checked + .slider {
@@ -290,5 +290,44 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(33px); 
+  transform: translateX(34px); 
+}
+
+.switch:active{
+  background-color: rgb(43, 43, 43);
+  transition: background-color 0.5s;
+}
+
+.list {
+  border: 1px solid var(--sidebar-border);
+  border-radius: 5px;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+}
+
+.list input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--sidebar-border);
+  border-radius: 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.list input:focus {
+  outline: none;
+  border-color: var(--special-button);
+  box-shadow: 0 0 0.3125rem rgba(0, 123, 255, 0.5);
+}
+
+.list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  padding: 4px 0;
 }

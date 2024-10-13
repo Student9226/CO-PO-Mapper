@@ -187,14 +187,14 @@ export const Home = () => {
           </select>
         </label>
           <button onClick={generateReport} style={{border: '1px solid var(--text-color)'}}>Generate Report</button>
-          <label className="switch">Allow editing<input onClick={handleSwitch} type="checkbox" value={isSwitchOn}/><span className="slider"></span></label>
+          <label className="switch"><span>Allow editing</span><input onClick={handleSwitch} type="checkbox" value={isSwitchOn}/><span className="slider"></span></label>
       </div>
       </div>
 
       <div className="tables-container">
-        {<Table program={filteredProgram()} programName={course}/>}
-        <Table courses={filteredCourses} />
-        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData}/> }</div>
+        {<Table program={filteredProgram()} programName={course} isEditable={isSwitchOn}/>}
+        <Table courses={filteredCourses} isEditable={isSwitchOn}/>
+        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}</div>
     </main>
   );
 };

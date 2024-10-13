@@ -1,29 +1,73 @@
 import PropTypes from "prop-types";
-export const Table = ({ courses=[], program=[], programName=""}) => {
+import { useState, useEffect, useMemo } from "react";
+
+export const Table = ({ courses = [], program = [], programName = "", isEditable }) => {
+  const [editableCourses, setEditableCourses] = useState(courses);
+  const [editableProgram, setEditableProgram] = useState(program);
+
+  const stableCourses = useMemo(() => courses, [courses]);
+  const stableProgram = useMemo(() => program, [program]);
+
+  useEffect(() => {
+    if (JSON.stringify(editableCourses) !== JSON.stringify(stableCourses)) {
+      setEditableCourses(stableCourses);
+    }
+  }, [stableCourses]);
+
+  useEffect(() => {
+    if (JSON.stringify(editableProgram) !== JSON.stringify(stableProgram)) {
+      setEditableProgram(stableProgram);
+    }
+  }, [stableProgram]);
+
+  const handleCourseOutcomeChange = (courseIndex, outcomeIndex, newValue) => {
+    const updatedCourses = [...editableCourses];
+    updatedCourses[courseIndex].outcomes[outcomeIndex] = newValue;
+    setEditableCourses(updatedCourses);
+  };
+
+  const handleProgramOutcomeChange = (index, newValue) => {
+    const updatedProgram = [...editableProgram];
+    updatedProgram[index] = newValue;
+    setEditableProgram(updatedProgram);
+  };
   return (
     <>
-      {courses.length > 0 && (
+      {editableCourses.length > 0 && (
         <table className="course-table">
           <thead>
             <tr>
-            {courses.length!=1 && <th>Sr no</th>}
-            
+              {editableCourses.length !== 1 && <th>Sr no</th>}
               <th>Course ID</th>
               <th>Course Name</th>
               <th>Outcomes</th>
             </tr>
           </thead>
           <tbody>
-          {courses.length === 0 && <p>No courses available for the selected program.</p>}
-            {courses.map((course, index) => (
+            {editableCourses.map((course, courseIndex) => (
               <tr key={course.id}>
-                {courses.length>1 && (<td style={{textAlign:'center'}}>{index+1}</td>)}
+                {editableCourses.length > 1 && (
+                  <td style={{ textAlign: "center" }}>{courseIndex + 1}</td>
+                )}
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>
                   <ul>
-                    {course.outcomes.map((outcome, index) => (
-                      <li style={{listStyle:'I'}} key={index}>{outcome}</li>
+                    {course.outcomes.map((outcome, outcomeIndex) => (
+                      <li className="list" key={outcomeIndex}>
+                        {isEditable ? (
+                          <input
+                            className="list" 
+                            type="text"
+                            value={outcome}
+                            onChange={(e) =>
+                              handleCourseOutcomeChange(courseIndex, outcomeIndex, e.target.value)
+                            }
+                          />
+                        ) : (
+                          outcome
+                        )}
+                      </li>
                     ))}
                   </ul>
                 </td>
@@ -32,8 +76,8 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
           </tbody>
         </table>
       )}
-    
-      {program.length > 0 && (
+
+      {editableProgram.length > 0 && (
         <table className="program-table">
           <thead>
             <tr>
@@ -42,20 +86,29 @@ export const Table = ({ courses=[], program=[], programName=""}) => {
             </tr>
           </thead>
           <tbody>
-            {program.map((outcome, index) => (
+            {editableProgram.map((outcome, index) => (
               <tr key={index}>
-                <td style={{textAlign:'center'}}>{index+1}</td>
-                <td>{outcome}</td>
+                <td style={{ textAlign: "center" }}>{index + 1}</td>
+                <td>
+                  {isEditable ? (
+                    <input
+                      className="list" 
+                      type="text"
+                      value={outcome}
+                      onChange={(e) => handleProgramOutcomeChange(index, e.target.value)}
+                    />
+                  ) : (
+                    outcome
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-   
-
     </>
   );
-}
+};
 
 Table.propTypes = {
   courses: PropTypes.arrayOf(
@@ -66,5 +119,6 @@ Table.propTypes = {
     })
   ),
   program: PropTypes.arrayOf(PropTypes.string),
-  programName: PropTypes.string
+  programName: PropTypes.string,
+  isEditable: PropTypes.bool,
 };
