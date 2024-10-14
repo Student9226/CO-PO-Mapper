@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 export const Table = ({ courses = [], program = [], programName = "", isEditable }) => {
   const [editableCourses, setEditableCourses] = useState(courses);
@@ -31,20 +31,6 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
     updatedProgram[index] = newValue;
     setEditableProgram(updatedProgram);
   };
-
-  const autoResizeTextarea = (textarea) => {
-    if (textarea) {
-      textarea.style.height = "auto"; // Reset height to calculate new height
-      textarea.style.height = `${textarea.scrollHeight}px`; // Set height to scrollHeight
-    }
-  };
-
-  // This effect will resize textareas after the component mounts and after the data updates
-  useEffect(() => {
-    const textareas = document.querySelectorAll("textarea");
-    textareas.forEach(autoResizeTextarea);
-  }, [editableCourses, editableProgram]);
-
   return (
     <>
       {editableCourses.length > 0 && (
@@ -66,22 +52,20 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>
-                  <ul className="list">
+                  <ul>
                     {course.outcomes.map((outcome, outcomeIndex) => (
-                      <li key={outcomeIndex}>
+                      <li className="list" key={outcomeIndex}>
                         {isEditable ? (
-                          <textarea
-                            className="list"
-                            defaultValue={outcome} // Use defaultValue instead of value
-                            onChange={(e) => {
-                              handleCourseOutcomeChange(courseIndex, outcomeIndex, e.target.value);
-                              autoResizeTextarea(e.target); // Resize on change
-                            }}
-                            rows="1" // Set initial row count
-                            style={{ width: "100%", resize: "none" }} // Prevent resizing to maintain table layout
+                          <input
+                            className="list" 
+                            type="text"
+                            value={outcome}
+                            onChange={(e) =>
+                              handleCourseOutcomeChange(courseIndex, outcomeIndex, e.target.value)
+                            }
                           />
                         ) : (
-                          <span className="list">{outcome}</span>
+                          outcome
                         )}
                       </li>
                     ))}
@@ -107,18 +91,14 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
                 <td>
                   {isEditable ? (
-                    <textarea
-                      className="list"
-                      defaultValue={outcome} // Use defaultValue instead of value
-                      onChange={(e) => {
-                        handleProgramOutcomeChange(index, e.target.value);
-                        autoResizeTextarea(e.target); // Resize on change
-                      }}
-                      rows="1" // Set initial row count
-                      style={{ width: "100%", resize: "none" }} // Prevent resizing to maintain table layout
+                    <input
+                      className="list" 
+                      type="text"
+                      value={outcome}
+                      onChange={(e) => handleProgramOutcomeChange(index, e.target.value)}
                     />
                   ) : (
-                    <span className="list">{outcome}</span>
+                    outcome
                   )}
                 </td>
               </tr>
@@ -135,10 +115,10 @@ Table.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      outcomes: PropTypes.object,
+      outcomes: PropTypes.arrayOf(PropTypes.string),
     })
   ),
-  program: PropTypes.object,
+  program: PropTypes.arrayOf(PropTypes.string),
   programName: PropTypes.string,
   isEditable: PropTypes.bool,
 };

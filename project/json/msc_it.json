@@ -8,7 +8,7 @@
           "semester": "I",
           "courses": [
             {
-              "id": "USCS101",
+              "id": "USMS101",
               "name": "Fundamentals of Computer Organization & Embedded Systems",
               "outcomes": [
                 "Apply knowledge of computer architecture and organization appropriate to the discipline.",
@@ -18,7 +18,7 @@
               ]
             },
             {
-              "id": "USCS102",
+              "id": "USMS102",
               "name": "Introduction to Programming using Python",
               "outcomes": [
                 "Students should be able to understand the concepts of programming before actually starting to write new programs.",
