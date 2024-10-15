@@ -1,13 +1,13 @@
+from dotenv import load_dotenv
+import os
 from flask import Flask, jsonify, request
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk import download
 from flask_cors import CORS
 from pymongo import MongoClient
-import os
 download('punkt')
 download('stopwords')
-from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
@@ -155,11 +155,18 @@ def add_program():
     if not program_name or not outcomes:
         return jsonify({'error': 'Program name or outcomes missing'}), 400
 
-    program_collection.insert_one({'program': program_name, 'outcomes': [outcome.strip() for outcome in outcomes]})
+    # Update to insert into the "program_outcomes" field and maintain the structure
+    program_collection.update_one(
+        {"_id": {"$oid": "your_oid"}},  # Use the existing document's OID to update
+        {"$set": {f"program_outcomes.{program_name}": [outcome.strip() for outcome in outcomes]}},
+        upsert=True
+    )
+
     return '''
     <p>Program outcomes added successfully.</p>
     <a href="/">Go back</a>
     '''
+
 
 @app.route('/get_course/<course_name>', methods=['GET'])
 def get_course(course_name):
@@ -172,11 +179,15 @@ def get_course(course_name):
 
 @app.route('/get_program/<program_name>', methods=['GET'])
 def get_program(program_name):
-    program = program_collection.find_one({'program': program_name}, {'_id': 0})
+    program_data = program_collection.find_one({'program_outcomes.' + program_name: {'$exists': True}}, {'_id': 0})
 
-    if program:
-        return jsonify(program), 200
+    if program_data:
+        return jsonify({'program': program_name, 'outcomes': program_data['program_outcomes'][program_name]}), 200
     return jsonify({'error': 'Program not found'}), 404
+
+
+    return jsonify({'error': 'Program not found'}), 404
+
 
 @app.route('/get_mapping/<program_name>/<course_name>', methods=['GET'])
 def get_mapping(program_name, course_name):
@@ -197,6 +208,7 @@ def get_all_courses():
 @app.route('/get_all_programs', methods=['GET'])
 def get_all_programs():
     programs = list(program_collection.find({}, {'_id': 0}))
+
     return jsonify(programs), 200
 
 if __name__ == '__main__':

@@ -12,13 +12,13 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
     if (JSON.stringify(editableCourses) !== JSON.stringify(stableCourses)) {
       setEditableCourses(stableCourses);
     }
-  }, [stableCourses]);
+  }, [stableCourses, editableCourses]); // Added editableCourses
 
   useEffect(() => {
     if (JSON.stringify(editableProgram) !== JSON.stringify(stableProgram)) {
       setEditableProgram(stableProgram);
     }
-  }, [stableProgram]);
+  }, [stableProgram, editableProgram]); // Added editableProgram
 
   const handleCourseOutcomeChange = (courseIndex, outcomeIndex, newValue) => {
     const updatedCourses = [...editableCourses];
@@ -31,6 +31,11 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
     updatedProgram[index] = newValue;
     setEditableProgram(updatedProgram);
   };
+
+  const handleContentChange = (e, updateFunction, ...args) => {
+    updateFunction(...args, e.target.innerText);
+  };
+
   return (
     <>
       {editableCourses.length > 0 && (
@@ -52,20 +57,27 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>
-                  <ul>
+                  <ul className="list">
                     {course.outcomes.map((outcome, outcomeIndex) => (
-                      <li className="list" key={outcomeIndex}>
+                      <li key={outcomeIndex}>
                         {isEditable ? (
-                          <input
-                            className="list" 
-                            type="text"
-                            value={outcome}
-                            onChange={(e) =>
-                              handleCourseOutcomeChange(courseIndex, outcomeIndex, e.target.value)
+                          <span
+                            className="list"
+                            contentEditable
+                            suppressContentEditableWarning={true}
+                            onBlur={(e) =>
+                              handleContentChange(
+                                e,
+                                handleCourseOutcomeChange,
+                                courseIndex,
+                                outcomeIndex
+                              )
                             }
-                          />
+                          >
+                            {outcome}
+                          </span>
                         ) : (
-                          outcome
+                          <span className="list">{outcome}</span>
                         )}
                       </li>
                     ))}
@@ -91,14 +103,18 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
                 <td>
                   {isEditable ? (
-                    <input
-                      className="list" 
-                      type="text"
-                      value={outcome}
-                      onChange={(e) => handleProgramOutcomeChange(index, e.target.value)}
-                    />
+                    <span
+                      className="list"
+                      contentEditable
+                      suppressContentEditableWarning={true}
+                      onBlur={(e) =>
+                        handleContentChange(e, handleProgramOutcomeChange, index)
+                      }
+                    >
+                      {outcome}
+                    </span>
                   ) : (
-                    outcome
+                    <span className="list">{outcome}</span>
                   )}
                 </td>
               </tr>
