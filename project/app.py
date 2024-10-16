@@ -18,8 +18,6 @@ except FileNotFoundError as e:
     print("Error loading NLTK resources")
 load_dotenv()
 
-
-
 app = Flask(__name__)
 CORS(app)
 mongo_uri = os.getenv("MONGODB_URI")
@@ -185,6 +183,8 @@ def add_program():
 
 @app.route('/get_course/<course_name>', methods=['GET'])
 def get_course(course_name):
+    if request.method == 'OPTIONS':
+        return '', 200
     course_data = course_collection.find_one({'name': course_name}, {'_id': 0})
 
     if course_data:
@@ -204,6 +204,8 @@ def get_course(course_name):
 
 @app.route('/get_program/<program_name>', methods=['GET']) 
 def get_program(program_name):
+    if request.method == 'OPTIONS':
+        return '', 200
     program_record = program_collection.find_one({'program_outcomes.' + program_name: {'$exists': True}}, {'_id': 0})
 
     if program_record:

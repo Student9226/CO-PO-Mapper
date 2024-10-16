@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useMemo } from "react";
 
-export const Table = ({ courses = [], program = [], programName = "", isEditable }) => {
+export const Table = ({ courses = [], program = [], programName = "", isEditable, tableType }) => {
   const [editableCourses, setEditableCourses] = useState(courses);
   const [editableProgram, setEditableProgram] = useState(program);
 
@@ -42,7 +42,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
       course_outcomes: editableCourses.map(course => course.outcomes),
       program_outcomes: editableProgram,
     };
-    console.log(requestBody);
+    console.log("Request body:", requestBody); // Check the request body
     fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes", {
       method: "POST",
       headers: {
@@ -61,7 +61,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
 
   return (
     <>
-      {editableCourses.length > 0 && (
+      {tableType === 'course' && editableCourses.length > 0 && (
         <div>
           <table className="course-table">
             <thead>
@@ -115,7 +115,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
         </div>
       )}
 
-      {editableProgram.length > 0 && (
+      {tableType === 'program' && editableProgram.length > 0 && (
         <div>
           <table className="program-table">
             <thead>
@@ -154,8 +154,6 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
           </table>
         </div>
       )}
-
-     
     </>
   );
 };
@@ -171,4 +169,5 @@ Table.propTypes = {
   program: PropTypes.arrayOf(PropTypes.string),
   programName: PropTypes.string,
   isEditable: PropTypes.bool,
+  tableType: PropTypes.oneOf(['course', 'program']).isRequired, // New prop for controlling table type
 };
