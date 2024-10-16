@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import bsc_cs from "../json/bsc_cs.json";
 import bsc_it from "../json/bsc_it.json";
 import msc_it from "../json/msc_it.json";
@@ -36,12 +36,10 @@ export const Home = () => {
 
   const filterCourses = (semester, selectedSubject = subject) => {
     let programData;
-
     if (course) {
       const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
       const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
-
       switch (course) {
         case "BSc CS":
           programData = bscCSSyllabus.program.find(
@@ -62,7 +60,6 @@ export const Home = () => {
           programData = null;
       }
     }
-
     if (programData) {
       if (!selectedSubject) {
         setFilteredCourses(programData.courses);
@@ -125,76 +122,113 @@ export const Home = () => {
       alert("Please input the required data before exporting.");
     }
   };
-  
 
-  const handleCoPoMatrixData = (coPoData) => {
+  const handleCoPoMatrixData = useCallback((coPoData) => { 
     setCoPoMatrixData(coPoData);
+  }, []);
+  
+  const handleSwitch = () => {
+    toggleSwitch(prev => !prev);
   };
 
-  const handleSwitch=()=>{
-    toggleSwitch(prev => !prev)
-  }
+  // Function to submit outcomes and map them via the API
+  const handleOutcomesSubmit = (courseOutcomes, programOutcomes) => {
+  const requestBody = {
+    program: course, // This is already in scope
+    course_outcomes: courseOutcomes, // Outcomes collected from Table.jsx
+    program_outcomes: programOutcomes, // Program outcomes collected from Table.jsx
+  };
+
+  fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestBody),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    setCoPoMatrixData(data);
+    console.log(data) // Update state with the new mapping data
+  })
+  .catch((error) => {
+    console.error("Error fetching mapping:", error);
+  });
+};
 
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
       <div className="main-border">
-      <div className="form-fields">
-      <label className="fields">
-          Instructor&apos;s Name:
-          <input type='text' value={instructorName} onChange={(e) => setInstructorName(e.target.value)} placeholder={placeholder} onFocus={()=>setPlaceholder('')} onBlur={()=>setPlaceholder('Enter a Name')}></input>
-        </label>
-        <label className="fields">
-          Program:
-          <select name="course" value={course} onChange={handleCourse}>
-            <option value="">Select a course</option>
-            <option value="BSc CS">BSc CS</option>
-            <option value="BSc IT">BSc IT</option>
-            <option value="MSc IT">MSc IT</option>
-          </select>
-        </label>
-
-        <label className="fields">
-          Semester:
-          <select name="semester" value={semester} onChange={handleSemester}>
-            <option value="">Select a semester</option>
-            <option value="I">I</option>
-            <option value="II">II</option>
-            <option value="III">III</option>
-            <option value="IV">IV</option>
-            <option value="V">V</option>
-            <option value="VI">VI</option>
-          </select>
-        </label>
-
-        <label className="fields">
-          Course:
-          <select name="subject" value={subject} onChange={handleSubject}>
-            <option value="">Select a subject</option>
-            {subjectOptions.map((subjectName) => (
-              <option key={subjectName} value={subjectName}>
-                {subjectName}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="fields">
-          Document Format:
-          <select name="docFormat" value={docFormat} onChange={handleDocFormat}>
-            <option value="">Select a format</option>
-            <option value="Excel">Excel</option>
-            <option value="Docx">Docx</option>
-            <option value="PDF">PDF</option>
-          </select>
-        </label>
-          <button onClick={generateReport} style={{border: '1px solid var(--text-color)'}}>Generate Report</button>
-          <label className="switch"><span>Allow editing</span><input onClick={handleSwitch} type="checkbox" value={isSwitchOn}/><span className="slider"></span></label>
-      </div>
+        <div className="form-fields">
+          <label className="fields">
+            Instructor&apos;s Name:
+            <input
+              autoComplete="true"
+              name="name"
+              type="text"
+              value={instructorName}
+              onChange={(e) => setInstructorName(e.target.value)}
+              placeholder={placeholder}
+              onFocus={() => setPlaceholder('')}
+              onBlur={() => setPlaceholder('Enter a Name')}
+            />
+          </label>
+          <label className="fields">
+            Program:
+            <select name="course" value={course} onChange={handleCourse}>
+              <option value="">Select a course</option>
+              <option value="BSc CS">BSc CS</option>
+              <option value="BSc IT">BSc IT</option>
+              <option value="MSc IT">MSc IT</option>
+            </select>
+          </label>
+          <label className="fields">
+            Semester:
+            <select name="semester" value={semester} onChange={handleSemester}>
+              <option value="">Select a semester</option>
+              <option value="I">I</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+              <option value="IV">IV</option>
+              <option value="V">V</option>
+              <option value="VI">VI</option>
+            </select>
+          </label>
+          <label className="fields">
+            Course:
+            <select name="subject" value={subject} onChange={handleSubject}>
+              <option value="">Select a subject</option>
+              {subjectOptions.map((subjectName) => (
+                <option key={subjectName} value={subjectName}>
+                  {subjectName}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="fields">
+            Document Format:
+            <select name="docFormat" value={docFormat} onChange={handleDocFormat}>
+              <option value="">Select a format</option>
+              <option value="Excel">Excel</option>
+              <option value="Docx">Docx</option>
+              <option value="PDF">PDF</option>
+            </select>
+          </label>
+          <button onClick={generateReport}>Generate Report</button>
+          <label className="switch">
+            <span>Allow editing</span>
+            <input onClick={handleSwitch} name="switch" type="checkbox" value={isSwitchOn} />
+            <span className="slider"></span>
+          </label>
+          <button>Map outcomes</button>
+        </div>
       </div>
 
       <div className="tables-container">
-        {<Table program={filteredProgram()} programName={course} isEditable={isSwitchOn}/>}
-        <Table courses={filteredCourses} isEditable={isSwitchOn}/>
-        { subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}</div>
+        <Table program={filteredProgram()} programName={course} isEditable={isSwitchOn} onSubmitOutcomes={handleOutcomesSubmit} />
+        <Table courses={filteredCourses} isEditable={isSwitchOn} />
+        {subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}
+      </div>
     </main>
   );
 };

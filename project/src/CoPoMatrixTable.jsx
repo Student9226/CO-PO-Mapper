@@ -1,34 +1,65 @@
 import PropTypes from 'prop-types';
-import coPoMatrix from '../json/co_po_matrix.json';
 import { useEffect, useState } from 'react';
 
 export const CoPoMatrixTable = ({
   selectedCourse = '',
   selectedProgram = '',
-  selectedSemester = '',
-  onReady,
+  onDataReady, 
   newMapping = [],
 }) => {
   const [cos, setCos] = useState({});
-  
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Call the onReady prop when the component mounts
-    if (onReady) onReady();
-    
-    // Load the initial course outcomes data
-    const courseData = coPoMatrix[selectedProgram]?.[selectedCourse] || {};
-    setCos(courseData.COs || {});
-  }, [selectedCourse, selectedProgram, onReady]);
+    if (selectedCourse && selectedProgram) {
+      setLoading(true);
+      fetch(
+        `https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_mapping/${encodeURIComponent(
+          selectedProgram
+        )}/${encodeURIComponent(selectedCourse)}`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log('Fetched CO-PO data:', data); // Log the fetched data
+
+          // Check if data.COs exists and has expected structure
+          if (data && data.COs) {
+            setCos(data.COs);
+          } else {
+            console.warn('Unexpected data structure:', data);
+            setCos({});
+          }
+          setLoading(false);
+
+          // Notify parent component when data is ready
+          if (onDataReady) {
+            onDataReady(data);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching CO-PO data:', error);
+          setLoading(false);
+        });
+    }
+  }, [selectedCourse, selectedProgram, onDataReady]);
 
   useEffect(() => {
     if (newMapping.length) {
+      console.log('New Mapping:', newMapping); // Log the new mapping data
       const updatedMapping = {};
       newMapping.forEach(({ course_outcome, similarities }) => {
+        console.log(`Processing course outcome: ${course_outcome}`); // Log course outcome
         updatedMapping[course_outcome] = similarities.reduce((acc, curr) => {
           acc[curr.program_outcome] = curr.similarity;
           return acc;
         }, {});
       });
+      console.log('Updated mapping:', updatedMapping);
       setCos(updatedMapping);
     }
   }, [newMapping]);
@@ -36,6 +67,10 @@ export const CoPoMatrixTable = ({
   if (!selectedCourse || !selectedProgram) return null;
 
   const poCount = Object.keys(cos).length > 0 ? Object.values(cos)[0].length : 0;
+
+  if (loading) {
+    return <p>Loading CO-PO Matrix...</p>;
+  }
 
   return (
     <>
@@ -81,9 +116,6 @@ export const CoPoMatrixTable = ({
 CoPoMatrixTable.propTypes = {
   selectedCourse: PropTypes.string,
   selectedProgram: PropTypes.string,
-  selectedSemester: PropTypes.string,
-  onReady: PropTypes.func,
-  newMapping: PropTypes.array,  // New prop for updated mapping data
+  onDataReady: PropTypes.func, 
+  newMapping: PropTypes.array,
 };
-
-// Default value for newMapping prop

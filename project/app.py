@@ -5,11 +5,16 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk import download
 from flask_cors import CORS
+import json
 from pymongo import MongoClient
 download('punkt')
 download('stopwords')
 load_dotenv()
+with open('json/program.json', 'r') as program_file:
+    program_data = json.load(program_file)
 
+with open('json/co_po_matrix.json', 'r') as co_po_matrix_file:
+    co_po_matrix_data = json.load(co_po_matrix_file)
 app = Flask(__name__)
 CORS(app)
 mongo_uri = os.getenv("MONGODB_URI")
@@ -23,6 +28,7 @@ def preprocess(text):
     tokens = word_tokenize(text.lower())
     return [token for token in tokens if token.isalpha() and token not in stop_words]
 
+# Compute similarity between program outcomes and course outcomes
 def compute_similarity(prog_outcome, course_outcome):
     prog_tokens = preprocess(prog_outcome)
     course_tokens = preprocess(course_outcome)
@@ -112,18 +118,15 @@ def home():
     </html>
     '''
 
-    
 @app.route('/map-outcomes', methods=['POST'])
 def map_outcomes():
     data = request.json
     selected_program = data.get('program', '')
     course_outcomes_list = data.get('course_outcomes', [])
 
-    program_data = program_collection.find_one({'program': selected_program}, {'_id': 0, 'outcomes': 1})
-    prog_outcomes = program_data['outcomes'] if program_data else []
+    prog_outcomes = program_data.get(selected_program, {}).get('program_outcomes', [])
 
     mapping = []
-    
     for co in course_outcomes_list:
         co_mapping = {'course_outcome': co, 'similarities': []}
         for po in prog_outcomes:
@@ -132,7 +135,7 @@ def map_outcomes():
         mapping.append(co_mapping)
 
     return jsonify(mapping)
-
+    
 @app.route('/add_course', methods=['POST'])
 def add_course():
     course_name = request.form.get('course')
@@ -155,9 +158,8 @@ def add_program():
     if not program_name or not outcomes:
         return jsonify({'error': 'Program name or outcomes missing'}), 400
 
-    # Update to insert into the "program_outcomes" field and maintain the structure
     program_collection.update_one(
-        {"_id": {"$oid": "your_oid"}},  # Use the existing document's OID to update
+        {"_id": {"$oid": "your_oid"}}, 
         {"$set": {f"program_outcomes.{program_name}": [outcome.strip() for outcome in outcomes]}},
         upsert=True
     )
@@ -170,12 +172,24 @@ def add_program():
 
 @app.route('/get_course/<course_name>', methods=['GET'])
 def get_course(course_name):
-    print(course_name)
-    course = course_collection.find_one({'course': course_name}, {'_id': 0})
+    course_data = course_collection.find_one(
+        {'syllabi.program.courses.name': course_name},
+        {'_id': 0, 'syllabi.program.$': 1} 
+    )
 
-    if course:
-        return jsonify(course), 200
+    if course_data:
+        for syllabus in course_data['syllabi']:
+            for program in syllabus['program']:
+                for course in program['courses']:
+                    if course['name'] == course_name:
+                        return jsonify({
+                            'course': course_name,
+                            'id': course['id'],
+                            'outcomes': course['outcomes']
+                        }), 200
+
     return jsonify({'error': 'Course not found'}), 404
+
 
 @app.route('/get_program/<program_name>', methods=['GET'])
 def get_program(program_name):
@@ -186,15 +200,9 @@ def get_program(program_name):
     return jsonify({'error': 'Program not found'}), 404
 
 
-    return jsonify({'error': 'Program not found'}), 404
-
-
 @app.route('/get_mapping/<program_name>/<course_name>', methods=['GET'])
 def get_mapping(program_name, course_name):
-    mapping = db.mappings.find_one(
-        {program_name: {"$exists": True}},
-        {program_name: {course_name: 1, "_id": 0}}
-    )
+    mapping = co_po_matrix_data.get(program_name, {}).get(course_name, {})
 
     if mapping:
         return jsonify(mapping), 200

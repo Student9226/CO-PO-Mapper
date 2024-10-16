@@ -1,36 +1,14 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useMemo } from "react";
+import { useCallback } from "react";
 
-export const Table = ({ courses = [], program = [], programName = "", isEditable }) => {
-  const [editableCourses, setEditableCourses] = useState(courses);
-  const [editableProgram, setEditableProgram] = useState(program);
+export const Table = ({ courses = [], program = [], programName = "", isEditable, onCourseOutcomeChange, onProgramOutcomeChange }) => {
+  const handleCourseOutcomeChange = useCallback((courseIndex, outcomeIndex, newValue) => {
+    onCourseOutcomeChange(courseIndex, outcomeIndex, newValue);
+  }, [onCourseOutcomeChange]);
 
-  const stableCourses = useMemo(() => courses, [courses]);
-  const stableProgram = useMemo(() => program, [program]);
-
-  useEffect(() => {
-    if (JSON.stringify(editableCourses) !== JSON.stringify(stableCourses)) {
-      setEditableCourses(stableCourses);
-    }
-  }, [stableCourses, editableCourses]); // Added editableCourses
-
-  useEffect(() => {
-    if (JSON.stringify(editableProgram) !== JSON.stringify(stableProgram)) {
-      setEditableProgram(stableProgram);
-    }
-  }, [stableProgram, editableProgram]); // Added editableProgram
-
-  const handleCourseOutcomeChange = (courseIndex, outcomeIndex, newValue) => {
-    const updatedCourses = [...editableCourses];
-    updatedCourses[courseIndex].outcomes[outcomeIndex] = newValue;
-    setEditableCourses(updatedCourses);
-  };
-
-  const handleProgramOutcomeChange = (index, newValue) => {
-    const updatedProgram = [...editableProgram];
-    updatedProgram[index] = newValue;
-    setEditableProgram(updatedProgram);
-  };
+  const handleProgramOutcomeChange = useCallback((index, newValue) => {
+    onProgramOutcomeChange(index, newValue);
+  }, [onProgramOutcomeChange]);
 
   const handleContentChange = (e, updateFunction, ...args) => {
     updateFunction(...args, e.target.innerText);
@@ -38,20 +16,20 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
 
   return (
     <>
-      {editableCourses.length > 0 && (
+      {courses.length > 0 && (
         <table className="course-table">
           <thead>
             <tr>
-              {editableCourses.length !== 1 && <th>Sr no</th>}
+              {courses.length !== 1 && <th>Sr no</th>}
               <th>Course ID</th>
               <th>Course Name</th>
               <th>Outcomes</th>
             </tr>
           </thead>
           <tbody>
-            {editableCourses.map((course, courseIndex) => (
+            {courses.map((course, courseIndex) => (
               <tr key={course.id}>
-                {editableCourses.length > 1 && (
+                {courses.length > 1 && (
                   <td style={{ textAlign: "center" }}>{courseIndex + 1}</td>
                 )}
                 <td>{course.id}</td>
@@ -89,7 +67,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
         </table>
       )}
 
-      {editableProgram.length > 0 && (
+      {program.length > 0 && (
         <table className="program-table">
           <thead>
             <tr>
@@ -98,7 +76,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
             </tr>
           </thead>
           <tbody>
-            {editableProgram.map((outcome, index) => (
+            {program.map((outcome, index) => (
               <tr key={index}>
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
                 <td>
@@ -137,4 +115,6 @@ Table.propTypes = {
   program: PropTypes.arrayOf(PropTypes.string),
   programName: PropTypes.string,
   isEditable: PropTypes.bool,
+  onCourseOutcomeChange: PropTypes.func.isRequired,  // Add this
+  onProgramOutcomeChange: PropTypes.func.isRequired,  // Add this
 };

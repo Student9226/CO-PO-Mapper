@@ -91,9 +91,9 @@ button {
   background-color: var(--special-button);
   padding: 8px 12px;
   margin-top: 10px;
-  margin-left: 15px;
-  cursor: pointer;
+  margin-left: 5px;
   border-radius: 5px;
+  border: 1px solid var(--text-color);
 }
 
 button:hover {
@@ -147,7 +147,6 @@ button:hover {
 
 .form-fields select:focus,
 .form-fields input:focus {
-  outline: none;
   border-color: var(--special-button);
   box-shadow: 0 0 0.3125rem rgba(0, 123, 255, 0.5);
 }
@@ -155,7 +154,6 @@ button:hover {
 .form-container button {
   background-color: var(--special-button1);
   color: white;
-  border: none;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 5px;
@@ -278,6 +276,7 @@ input::placeholder{
   bottom: 4px;
   background-color: white;
   transition: transform 0.25s;
+  border-radius: 5px;
 }
 
 input:checked + .slider {
