@@ -42,7 +42,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
       course_outcomes: editableCourses.map(course => course.outcomes),
       program_outcomes: editableProgram,
     };
-
+    console.log(requestBody);
     fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes", {
       method: "POST",
       headers: {
@@ -112,6 +112,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
               ))}
             </tbody>
           </table>
+          <button onClick={handleOutcomesSubmit}>Submit Outcomes</button>
         </div>
       )}
 
@@ -156,7 +157,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
         </div>
       )}
 
-      <button onClick={handleOutcomesSubmit}>Submit Outcomes</button>
+     
     </>
   );
 };

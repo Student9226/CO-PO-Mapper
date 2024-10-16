@@ -1,19 +1,25 @@
-from dotenv import load_dotenv
+""" 
+This Flask application serves as the backend for the CO-PO mapping system.
+It allows adding and retrieving course and program outcomes, mapping them using NLP, 
+and fetching CO-PO mapping data from a MongoDB database. 
+"""
 import os
+import json
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk import download
 from flask_cors import CORS
-import json
+
 from pymongo import MongoClient
 download('punkt')
 download('stopwords')
 load_dotenv()
-with open('json/program.json', 'r') as program_file:
+with open('json/program.json', 'r', encoding='utf-8') as program_file:
     program_data = json.load(program_file)
 
-with open('json/co_po_matrix.json', 'r') as co_po_matrix_file:
+with open('json/co_po_matrix.json', 'r', encoding='utf-8') as co_po_matrix_file:
     co_po_matrix_data = json.load(co_po_matrix_file)
 app = Flask(__name__)
 CORS(app)
@@ -30,9 +36,16 @@ def preprocess(text):
 
 # Compute similarity between program outcomes and course outcomes
 def compute_similarity(prog_outcome, course_outcome):
+    print(f"Program Outcomes: {prog_outcome}")
+    if not prog_outcome:
+        return jsonify({'error': f'No program outcomes found for {prog_outcome}'}), 400
+    if not course_outcome:
+        return jsonify({'error': f'No course outcomes found for {course_outcome}'}), 400
     prog_tokens = preprocess(prog_outcome)
     course_tokens = preprocess(course_outcome)
     common_tokens = set(prog_tokens) & set(course_tokens)
+    print(f"Program Tokens: {prog_tokens}")
+    print(f"Course Tokens: {course_tokens}")
     return len(common_tokens) / (len(prog_tokens) + len(course_tokens) - len(common_tokens))
 
 @app.route('/')
@@ -123,6 +136,8 @@ def map_outcomes():
     data = request.json
     selected_program = data.get('program', '')
     course_outcomes_list = data.get('course_outcomes', [])
+    print(f"Course Outcomes: {course_outcomes_list}")
+
 
     prog_outcomes = program_data.get(selected_program, {}).get('program_outcomes', [])
 
@@ -191,14 +206,13 @@ def get_course(course_name):
     return jsonify({'error': 'Course not found'}), 404
 
 
-@app.route('/get_program/<program_name>', methods=['GET'])
+@app.route('/get_program/<program_name>', methods=['GET']) 
 def get_program(program_name):
-    program_data = program_collection.find_one({'program_outcomes.' + program_name: {'$exists': True}}, {'_id': 0})
+    program_record = program_collection.find_one({'program_outcomes.' + program_name: {'$exists': True}}, {'_id': 0})
 
-    if program_data:
-        return jsonify({'program': program_name, 'outcomes': program_data['program_outcomes'][program_name]}), 200
+    if program_record:
+        return jsonify({'program': program_name, 'outcomes': program_record['program_outcomes'][program_name]}), 200
     return jsonify({'error': 'Program not found'}), 404
-
 
 @app.route('/get_mapping/<program_name>/<course_name>', methods=['GET'])
 def get_mapping(program_name, course_name):

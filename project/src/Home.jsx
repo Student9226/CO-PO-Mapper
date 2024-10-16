@@ -233,7 +233,7 @@ export const Home = () => {
   onSubmit={handleOutcomesSubmit}
   setCoPoMatrixData={setCoPoMatrixData}
 />        
- 
+<Table courses={filteredCourses} isEditable={isSwitchOn} />
         {subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}
       </div>
     </main>
