@@ -25,41 +25,36 @@ export const CoPoMatrixTable = ({
           return res.json();
         })
         .then((data) => {
-          console.log('Fetched CO-PO data:', data); // Log the fetched data
-
-          // Check if data.COs exists and has expected structure
           if (data && data.COs) {
             setCos(data.COs);
           } else {
-            console.warn('Unexpected data structure:', data);
             setCos({});
           }
           setLoading(false);
-
-          // Notify parent component when data is ready
           if (onDataReady) {
             onDataReady(data);
           }
         })
         .catch((error) => {
-          console.error('Error fetching CO-PO data:', error);
           setLoading(false);
+          console.log(error)
         });
     }
   }, [selectedCourse, selectedProgram, onDataReady]);
 
   useEffect(() => {
     if (newMapping.length) {
-      console.log('New Mapping:', newMapping); // Log the new mapping data
       const updatedMapping = {};
       newMapping.forEach(({ course_outcome, similarities }) => {
-        console.log(`Processing course outcome: ${course_outcome}`); // Log course outcome
-        updatedMapping[course_outcome] = similarities.reduce((acc, curr) => {
-          acc[curr.program_outcome] = curr.similarity;
-          return acc;
-        }, {});
+        if (similarities && similarities.length) {
+          updatedMapping[course_outcome] = similarities.reduce((acc, curr) => {
+            acc[curr.program_outcome] = curr.similarity;
+            return acc;
+          }, {});
+        } else {
+          updatedMapping[course_outcome] = Array(poCount).fill('No Data');
+        }
       });
-      console.log('Updated mapping:', updatedMapping);
       setCos(updatedMapping);
     }
   }, [newMapping]);
@@ -70,6 +65,10 @@ export const CoPoMatrixTable = ({
 
   if (loading) {
     return <p>Loading CO-PO Matrix...</p>;
+  }
+
+  if (Object.entries(cos).length === 0) {
+    return <p>No CO-PO mapping data available for {selectedCourse}.</p>;
   }
 
   return (
@@ -85,28 +84,20 @@ export const CoPoMatrixTable = ({
           </tr>
         </thead>
         <tbody>
-          {Object.entries(cos).length > 0 ? (
-            Object.entries(cos).map(([coId, values]) => (
-              <tr key={coId}>
-                <td className='td-center'>{coId}</td>
-                {Array.isArray(values) ? (
-                  values.map((value, index) => (
-                    <td className='td-center' key={index}>{value}</td>
-                  ))
-                ) : (
-                  <td className='td-center' colSpan={poCount}>
-                    No data available for {coId}.
-                  </td>
-                )}
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={poCount + 1} className='td-center'>
-                No CO-PO mapping data available for {selectedCourse}.
-              </td>
+          {Object.entries(cos).map(([coId, values]) => (
+            <tr key={coId}>
+              <td className='td-center'>{coId}</td>
+              {Array.isArray(values) && values.length > 0 ? (
+                values.map((value, index) => (
+                  <td className='td-center' key={index}>{value}</td>
+                ))
+              ) : (
+                <td className='td-center' colSpan={poCount}>
+                  No data available for {coId}.
+                </td>
+              )}
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     </>

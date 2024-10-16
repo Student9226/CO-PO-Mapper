@@ -63,7 +63,6 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
     <>
       {editableCourses.length > 0 && (
         <div>
-          <h3>Course Outcomes</h3>
           <table className="course-table">
             <thead>
               <tr>
@@ -118,7 +117,6 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
 
       {editableProgram.length > 0 && (
         <div>
-          <h3>{programName} Program Outcomes</h3>
           <table className="program-table">
             <thead>
               <tr>
