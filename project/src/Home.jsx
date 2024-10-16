@@ -19,7 +19,7 @@ export const Home = () => {
   const [instructorName, setInstructorName] = useState(""); 
   const [coPoMatrixData, setCoPoMatrixData] = useState([]);
   const [isSwitchOn, toggleSwitch] = useState(true);
-
+  
   const handleCourse = (e) => {
     setCourse(e.target.value);
     setSemester("");
@@ -133,28 +133,29 @@ export const Home = () => {
 
   // Function to submit outcomes and map them via the API
   const handleOutcomesSubmit = (courseOutcomes, programOutcomes) => {
-  const requestBody = {
-    program: course, // This is already in scope
-    course_outcomes: courseOutcomes, // Outcomes collected from Table.jsx
-    program_outcomes: programOutcomes, // Program outcomes collected from Table.jsx
+    const requestBody = {
+      program: course, // This is already in scope
+      course_outcomes: courseOutcomes, // Outcomes collected from Table.jsx
+      program_outcomes: programOutcomes, // Program outcomes collected from Table.jsx
+    };
+    console.log(requestBody)
+  
+    fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes/${encodeURIComponent(course)}/${encodeURIComponent(subject)}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setCoPoMatrixData(data);
+      console.log(data) // Update state with the new mapping data
+    })
+    .catch((error) => {
+      console.error("Error fetching mapping:", error);
+    });
   };
-
-  fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    setCoPoMatrixData(data);
-    console.log(data) // Update state with the new mapping data
-  })
-  .catch((error) => {
-    console.error("Error fetching mapping:", error);
-  });
-};
 
   return (
     <main className={`form-container ${isProgramSelected ? 'form-left' : 'form-centered'}`}>
@@ -220,13 +221,19 @@ export const Home = () => {
             <input onClick={handleSwitch} name="switch" type="checkbox" value={isSwitchOn} />
             <span className="slider"></span>
           </label>
-          <button>Map outcomes</button>
+          <button onClick={handleOutcomesSubmit}>Map outcomes</button>
         </div>
       </div>
 
       <div className="tables-container">
-        <Table program={filteredProgram()} programName={course} isEditable={isSwitchOn} onSubmitOutcomes={handleOutcomesSubmit} />
-        <Table courses={filteredCourses} isEditable={isSwitchOn} />
+      <Table 
+  program={filteredProgram()} 
+  programName={course} 
+  isEditable={isSwitchOn} 
+  onSubmit={handleOutcomesSubmit}
+  setCoPoMatrixData={setCoPoMatrixData}
+/>        
+ 
         {subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}
       </div>
     </main>

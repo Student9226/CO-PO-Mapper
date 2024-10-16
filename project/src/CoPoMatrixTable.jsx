@@ -25,9 +25,8 @@ export const CoPoMatrixTable = ({
           return res.json();
         })
         .then((data) => {
-          console.log('Fetched CO-PO data:', data); // Log the fetched data
+          console.log('Fetched CO-PO data:', data); 
 
-          // Check if data.COs exists and has expected structure
           if (data && data.COs) {
             setCos(data.COs);
           } else {
@@ -36,7 +35,6 @@ export const CoPoMatrixTable = ({
           }
           setLoading(false);
 
-          // Notify parent component when data is ready
           if (onDataReady) {
             onDataReady(data);
           }
@@ -50,10 +48,10 @@ export const CoPoMatrixTable = ({
 
   useEffect(() => {
     if (newMapping.length) {
-      console.log('New Mapping:', newMapping); // Log the new mapping data
+      console.log('New Mapping:', newMapping); 
       const updatedMapping = {};
       newMapping.forEach(({ course_outcome, similarities }) => {
-        console.log(`Processing course outcome: ${course_outcome}`); // Log course outcome
+        console.log(`Processing course outcome: ${course_outcome}`); 
         updatedMapping[course_outcome] = similarities.reduce((acc, curr) => {
           acc[curr.program_outcome] = curr.similarity;
           return acc;
