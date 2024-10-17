@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
 import { generateExcel, generateDoc, generatePDF } from "./reportGenerator"; 
@@ -15,7 +15,53 @@ export const Home = () => {
   const [instructorName, setInstructorName] = useState(""); 
   const [coPoMatrixData, setCoPoMatrixData] = useState([]);
   const [isSwitchOn, toggleSwitch] = useState(true);
-  
+  const [programOutcomes, setProgramOutcomes] = useState([]);
+  const [filteredProgramOutcomes, setFilteredProgramOutcomes] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProgramOutcomes = async () => {
+      if (course) {
+        try {
+          const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_program/${encodeURIComponent(course)}`);
+          if (!response.ok) {
+            throw new Error(`Error fetching program data: ${response.statusText}`);
+          }
+          const data = await response.json();
+          setFilteredProgramOutcomes(data.outcomes || []);
+        } catch (error) {
+          console.error(error);
+          setFilteredProgramOutcomes([]); // Handle error by resetting program outcomes
+        }
+      }
+    };
+
+    fetchProgramOutcomes();
+  }, [course]);
+
+  useEffect(() => {
+    if (course) {
+      fetchProgramOutcomes();
+    }
+  }, [course]);
+
+  const fetchProgramOutcomes = async () => {
+    if (course) {
+      try {
+        const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_program/${encodeURIComponent(course)}`);
+        if (!response.ok) {
+          throw new Error(`Error fetching program data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const programOutcomes = data.outcomes;
+        setProgramOutcomes(programOutcomes); // Update state with fetched outcomes
+      } catch (error) {
+        console.error(error);
+        setProgramOutcomes([]); // Handle the error by resetting program outcomes
+      }
+    }
+  };
+
   const handleCourse = (e) => {
     setCourse(e.target.value);
     setSemester("");
@@ -39,7 +85,7 @@ export const Home = () => {
           throw new Error(`Error fetching course data: ${response.statusText}`);
         }
         const data = await response.json();
-        const courseData = data.outcomes; // Adjust this based on your API response structure
+        const courseData = data.outcomes; 
   
         if (!selectedSubject) {
           setFilteredCourses(courseData);
@@ -80,7 +126,7 @@ export const Home = () => {
     }
     return [];
   };
-
+  
   const handleSubject = (e) => {
     setSubject(e.target.value);
     filterCourses(semester, e.target.value); 
@@ -96,7 +142,7 @@ export const Home = () => {
       course,
       semester,
       subject,
-      program: filteredProgram(),
+      program: programOutcomes,
       courses: filteredCourses,
       coPoMatrix: coPoMatrixData,
     };
@@ -123,12 +169,11 @@ export const Home = () => {
     toggleSwitch(prev => !prev);
   };
 
-  // Function to submit outcomes and map them via the API
   const handleOutcomesSubmit = (courseOutcomes, programOutcomes) => {
     const requestBody = {
-      program: course, // This is already in scope
-      course_outcomes: courseOutcomes, // Outcomes collected from Table.jsx
-      program_outcomes: programOutcomes, // Program outcomes collected from Table.jsx
+      program: course, 
+      course_outcomes: courseOutcomes, 
+      program_outcomes: programOutcomes,
     };
     console.log(requestBody)
   
@@ -142,7 +187,7 @@ export const Home = () => {
     .then((response) => response.json())
     .then((data) => {
       setCoPoMatrixData(data);
-      console.log(data) // Update state with the new mapping data
+      console.log(data)
     })
     .catch((error) => {
       console.error("Error fetching mapping:", error);
@@ -219,7 +264,7 @@ export const Home = () => {
 
       <div className="tables-container">
         <Table 
-          program={filteredProgram()}
+          program={filteredProgramOutcomes}
           courses={filteredCourses} 
           programName={course} 
           isEditable={isSwitchOn} 

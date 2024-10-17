@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 export const Table = ({ courses = [], program = [], programName = "", isEditable, tableType }) => {
   const [editableCourses, setEditableCourses] = useState(courses);
   const [editableProgram, setEditableProgram] = useState(program);
-
+  
   const stableCourses = useMemo(() => courses, [courses]);
   const stableProgram = useMemo(() => program, [program]);
 
@@ -42,7 +42,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
       course_outcomes: editableCourses.map(course => course.outcomes),
       program_outcomes: editableProgram,
     };
-    console.log("Request body:", requestBody); // Check the request body
+    console.log("Request body:", requestBody); 
     fetch("https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes", {
       method: "POST",
       headers: {
