@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useMemo } from "react";
 
-export const Table = ({ courses = [], program = [], programName = "", isEditable, tableType }) => {
-  const [editableCourses, setEditableCourses] = useState(courses);
+export const Table = ({ courseOutcomes = [], program = [], programName = "", isEditable, tableType }) => {
+  const [editableCourses, setEditableCourses] = useState(courseOutcomes);
   const [editableProgram, setEditableProgram] = useState(program);
   
-  const stableCourses = useMemo(() => courses, [courses]);
+  const stableCourses = useMemo(() => courseOutcomes, [courseOutcomes]);
   const stableProgram = useMemo(() => program, [program]);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
         </div>
       )}
 
-      {tableType === 'program' && editableProgram.length > 0 && (
+      {tableType === 'program' && editableProgram.length > 0 && programName.length > 0 && (
         <div>
           <table className="program-table">
             <thead>
@@ -159,7 +159,7 @@ export const Table = ({ courses = [], program = [], programName = "", isEditable
 };
 
 Table.propTypes = {
-  courses: PropTypes.arrayOf(
+  courseOutcomes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,

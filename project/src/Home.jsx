@@ -1,23 +1,22 @@
 import { useState, useCallback, useEffect } from "react";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
 import { Table } from "./Table";
-import { generateExcel, generateDoc, generatePDF } from "./reportGenerator"; 
+import { generateExcel, generateDoc, generatePDF } from "./reportGenerator";
 
 export const Home = () => {
   const [course, setCourse] = useState("");
   const [semester, setSemester] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState([]);
   const [subject, setSubject] = useState("");
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [isProgramSelected, setProgramSelected] = useState(false);
-  const [docFormat, setDocFormat] = useState(""); 
+  const [docFormat, setDocFormat] = useState("");
   const [placeholder, setPlaceholder] = useState("Enter a Name");
-  const [instructorName, setInstructorName] = useState(""); 
+  const [instructorName, setInstructorName] = useState("");
   const [coPoMatrixData, setCoPoMatrixData] = useState([]);
   const [isSwitchOn, toggleSwitch] = useState(true);
   const [programOutcomes, setProgramOutcomes] = useState([]);
   const [filteredProgramOutcomes, setFilteredProgramOutcomes] = useState([]);
-
+  const [filteredCourseOutcomes, setFilteredCourseOutcomes] = useState([]);
 
   useEffect(() => {
     const fetchProgramOutcomes = async () => {
@@ -28,10 +27,10 @@ export const Home = () => {
             throw new Error(`Error fetching program data: ${response.statusText}`);
           }
           const data = await response.json();
-          setFilteredProgramOutcomes(data.outcomes || []);
+          setProgramOutcomes(data.outcomes || []);
         } catch (error) {
           console.error(error);
-          setFilteredProgramOutcomes([]); // Handle error by resetting program outcomes
+          setProgramOutcomes([]); 
         }
       }
     };
@@ -39,101 +38,58 @@ export const Home = () => {
     fetchProgramOutcomes();
   }, [course]);
 
-  useEffect(() => {
-    if (course) {
-      fetchProgramOutcomes();
-    }
-  }, [course]);
-
-  const fetchProgramOutcomes = async () => {
-    if (course) {
+  const fetchCourseOutcomes = async (subjectName) => {
+    if (course && subjectName) {
       try {
-        const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_program/${encodeURIComponent(course)}`);
+        const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_course/${encodeURIComponent(subjectName)}`);
         if (!response.ok) {
-          throw new Error(`Error fetching program data: ${response.statusText}`);
+          throw new Error(`Error fetching course data: ${response.statusText}`);
         }
         const data = await response.json();
-        const programOutcomes = data.outcomes;
-        setProgramOutcomes(programOutcomes); // Update state with fetched outcomes
+        setFilteredCourseOutcomes(data.outcomes || []);
+        setSubjectOptions(data.outcomes.map((course) => course.name));
       } catch (error) {
         console.error(error);
-        setProgramOutcomes([]); // Handle the error by resetting program outcomes
+        setFilteredCourseOutcomes([]); // Reset course outcomes on error
+        setSubjectOptions([]); // Reset subject options in case of error
       }
     }
   };
+
+  // Use the consolidated function for useEffect when both course and subject are selected
+  useEffect(() => {
+    if (course && subject) {
+      fetchCourseOutcomes(subject);
+    }
+  }, [course, subject]);
 
   const handleCourse = (e) => {
     setCourse(e.target.value);
     setSemester("");
     setSubject("");
-    setFilteredCourses([]);
     setSubjectOptions([]);
     setProgramSelected(!!e.target.value);
   };
 
   const handleSemester = (e) => {
     setSemester(e.target.value);
-    filterCourses(e.target.value);
+    handleFetchCourses(); // Call handleFetchCourses on semester change
   };
 
-  const filterCourses = async (semester, selectedSubject = subject) => {
-  
-    if (course) {
-      try {
-        const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_course/${encodeURIComponent(course)}`);
-        if (!response.ok) {
-          throw new Error(`Error fetching course data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        const courseData = data.outcomes; 
-  
-        if (!selectedSubject) {
-          setFilteredCourses(courseData);
-        } else {
-          const selectedCourse = courseData.filter((course) => course.name === selectedSubject);
-          setFilteredCourses(selectedCourse);
-        }
-        setSubjectOptions(courseData.map((course) => course.name));
-  
-      } catch (error) {
-        console.error(error);
-        setFilteredCourses([]);
-        setSubjectOptions([]);
-      }
+  const handleFetchCourses = () => {
+    // Only proceed if both course and subject are selected
+    if (course && subject) {
+      fetchCourseOutcomes(subject);
     }
   };
 
-  const filteredProgram = async () => {
-    if (course) {
-      try {
-        const response = await fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_program/${encodeURIComponent(course)}`);
-        if (!response.ok) {
-          throw new Error(`Error fetching program data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        const programOutcomes = data.outcomes;
-  
-        if (programOutcomes) {
-          return programOutcomes;
-        } else {
-          console.log(`No program outcomes found for course: ${course}`);
-          return [];
-        }
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    }
-    return [];
-  };
-  
   const handleSubject = (e) => {
     setSubject(e.target.value);
-    filterCourses(semester, e.target.value); 
+    fetchCourseOutcomes(e.target.value); // Fetch outcomes when subject is selected
   };
 
   const handleDocFormat = (e) => {
-    setDocFormat(e.target.value); 
+    setDocFormat(e.target.value);
   };
 
   const generateReport = () => {
@@ -143,7 +99,7 @@ export const Home = () => {
       semester,
       subject,
       program: programOutcomes,
-      courses: filteredCourses,
+      courses: filteredCourseOutcomes,
       coPoMatrix: coPoMatrixData,
     };
     if (course && semester && subject) {
@@ -152,7 +108,7 @@ export const Home = () => {
       } else if (docFormat === "Docx") {
         generateDoc(reportData, docFormat);
       } else if (docFormat === "PDF") {
-        generatePDF(reportData); 
+        generatePDF(reportData);
       } else if (docFormat === "") {
         alert('Please select a document format to export.');
       }
@@ -161,22 +117,22 @@ export const Home = () => {
     }
   };
 
-  const handleCoPoMatrixData = useCallback((coPoData) => { 
+  const handleCoPoMatrixData = useCallback((coPoData) => {
     setCoPoMatrixData(coPoData);
   }, []);
-  
+
   const handleSwitch = () => {
     toggleSwitch(prev => !prev);
   };
 
   const handleOutcomesSubmit = (courseOutcomes, programOutcomes) => {
     const requestBody = {
-      program: course, 
-      course_outcomes: courseOutcomes, 
+      program: course,
+      course_outcomes: courseOutcomes,
       program_outcomes: programOutcomes,
     };
-    console.log(requestBody)
-  
+    console.log(requestBody);
+
     fetch(`https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map-outcomes/${encodeURIComponent(course)}/${encodeURIComponent(subject)}`, {
       method: "POST",
       headers: {
@@ -187,7 +143,7 @@ export const Home = () => {
     .then((response) => response.json())
     .then((data) => {
       setCoPoMatrixData(data);
-      console.log(data)
+      console.log(data);
     })
     .catch((error) => {
       console.error("Error fetching mapping:", error);
@@ -258,22 +214,24 @@ export const Home = () => {
             <input onClick={handleSwitch} name="switch" type="checkbox" value={isSwitchOn} />
             <span className="slider"></span>
           </label>
-          {/* Removed the redundant button here */}
         </div>
       </div>
 
       <div className="tables-container">
-        <Table 
+        <Table
           program={filteredProgramOutcomes}
-          courses={filteredCourses} 
-          programName={course} 
-          isEditable={isSwitchOn} 
+          courses={filteredCourseOutcomes}
+          programName={course}
+          isEditable={isSwitchOn}
           onSubmit={handleOutcomesSubmit}
-          setCoPoMatrixData={setCoPoMatrixData}
-          tableType="program"
-        />        
-        <Table courses={filteredCourses} isEditable={isSwitchOn} tableType="course"/>
-        {subject && <CoPoMatrixTable selectedCourse={subject} selectedProgram={course} onDataReady={handleCoPoMatrixData} />}
+        />
+        <CoPoMatrixTable
+          program={course}
+          semester={semester}
+          course={subject}
+          data={coPoMatrixData}
+          onCoPoMatrixUpdate={handleCoPoMatrixData}
+        />
       </div>
     </main>
   );
