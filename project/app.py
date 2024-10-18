@@ -40,7 +40,6 @@ def hello_world():
 @app.route('/map_outcomes', methods=['POST'])
 def map_outcomes_route():
     if request.method == 'OPTIONS':
-        # Preflight CORS request
         return '', 204
     data = request.json
     program_outcomes = data.get('program_outcomes', [])

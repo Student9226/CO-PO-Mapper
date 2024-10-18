@@ -1,75 +1,26 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
 
-export const CoPoMatrixTable = ({
-  selectedCourse = '',
-  selectedProgram = '',
-  onDataReady, 
-  newMapping = [],
-}) => {
-  const [cos, setCos] = useState({});
-  const [loading, setLoading] = useState(true);
+export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '', coPoMatrixData = [] }) => {
 
-  useEffect(() => {
-    if (selectedCourse && selectedProgram) {
-      setLoading(true);
-      fetch(
-        `https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/get_mapping/${encodeURIComponent(
-          selectedProgram
-        )}/${encodeURIComponent(selectedCourse)}`
-      )
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          if (data && data.COs) {
-            setCos(data.COs);
-          } else {
-            setCos({});
-          }
-          setLoading(false);
-          if (onDataReady) {
-            onDataReady(data);
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error)
-        });
-    }
-  }, [selectedCourse, selectedProgram, onDataReady]);
+  console.log(coPoMatrixData);
 
-  useEffect(() => {
-    if (newMapping.length) {
-      const updatedMapping = {};
-      newMapping.forEach(({ course_outcome, similarities }) => {
-        if (similarities && similarities.length) {
-          updatedMapping[course_outcome] = similarities.reduce((acc, curr) => {
-            acc[curr.program_outcome] = curr.similarity;
-            return acc;
-          }, {});
-        } else {
-          updatedMapping[course_outcome] = Array(poCount).fill('No Data');
-        }
-      });
-      setCos(updatedMapping);
-    }
-  }, [newMapping]);
+  if (!selectedCourse || !selectedProgram) return null; // Removed duplicate check
 
-  if (!selectedCourse || !selectedProgram) return null;
+  // Directly assign the mapping data
+  const cos = coPoMatrixData || []; // Use coPoMatrixData directly
 
-  const poCount = Object.keys(cos).length > 0 ? Object.values(cos)[0].length : 0;
-
-  if (loading) {
-    return <p>Loading CO-PO Matrix...</p>;
-  }
-
-  if (Object.entries(cos).length === 0) {
+  if (!cos.length) {
     return <p>No CO-PO mapping data available for {selectedCourse}.</p>;
   }
+
+  const poCount = cos[0]?.length || 0; // Assuming all COs have the same length
+
+  const avgValues = cos.reduce((acc, co) => {
+    co.forEach((value, index) => {
+      acc[index] = (acc[index] || 0) + value;
+    });
+    return acc;
+  }, new Array(poCount).fill(0)).map(sum => (sum / cos.length).toFixed(2));
 
   return (
     <>
@@ -84,20 +35,16 @@ export const CoPoMatrixTable = ({
           </tr>
         </thead>
         <tbody>
-          {Object.entries(cos).map(([coId, values]) => (
-            <tr key={coId}>
-              <td className='td-center'>{coId}</td>
-              {Array.isArray(values) && values.length > 0 ? (
-                values.map((value, index) => (
-                  <td className='td-center' key={index}>{value}</td>
-                ))
-              ) : (
-                <td className='td-center' colSpan={poCount}>
-                  No data available for {coId}.
-                </td>
-              )}
+          {cos.map((values, coIndex) => (
+            <tr key={coIndex}>
+              <td style={{ padding: 8 }} className='td-center'>CO{coIndex + 1}</td>
+              {values.map((value, index) => <td className='td-center' key={index}>{value}</td>)}
             </tr>
           ))}
+          <tr key="avg">
+            <td className='td-center'>AVG</td>
+            {avgValues.map((value, index) => <td style={{ padding: 8 }} className='td-center' key={index}>{value}</td>)}
+          </tr>
         </tbody>
       </table>
     </>
@@ -107,6 +54,5 @@ export const CoPoMatrixTable = ({
 CoPoMatrixTable.propTypes = {
   selectedCourse: PropTypes.string,
   selectedProgram: PropTypes.string,
-  onDataReady: PropTypes.func, 
-  newMapping: PropTypes.array,
+  coPoMatrixData: PropTypes.array.isRequired,
 };
