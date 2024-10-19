@@ -6,19 +6,16 @@ export const HelpButton = () => {
   const [question, setQuestion] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const chatWindowRef = useRef(null);
-  const helpButtonRef = useRef(null); 
-  const inputRef = useRef(null); 
+  const helpButtonRef = useRef(null); // Reference for the help button
+  const inputRef = useRef(null); // Reference for the input field
   const startX = useRef(null);
   const startY = useRef(null);
+  const startWidth = useRef(null);
+  const startHeight = useRef(null);
   const dragRef = useRef(null);
-  const urls = [
-    "https://glowing-train-j6765xw6x762qj75-5000.app.github.dev/ask", 
-    "https://copomapper.surge.sh/ask",
-    "https://5000-student9226-flaskapi-x0mkd9lr56h.ws-us116.gitpod.io/ask"
-  ];
 
   const handleClick = () => {
-    setIsChatOpen(prevState => !prevState); 
+    setIsChatOpen((prevState) => !prevState); // Toggle chat window visibility
   };
 
   const handleSubmit = async () => {
@@ -26,50 +23,52 @@ export const HelpButton = () => {
       alert("Please enter a question");
       return;
     }
-    
-    setChatHistory(prev => [...prev, { role: "user", content: question }]);
-    setQuestion(""); 
 
-    for (let url of urls) {
-      try {
-        const response = await fetch(url, {
+    // Add user message to chat history
+    setChatHistory([...chatHistory, { role: "user", content: question }]);
+    setQuestion(""); // Clear input field
+
+    try {
+      const response = await fetch(
+        "https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/ask",
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ question })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Add AI response to chat history
-          setChatHistory(prev => [
-            ...prev,
-            { role: "assistant", content: data.answer },
-          ]);
-          break; // Exit loop on successful response
-        } else {
-          setChatHistory(prev => [
-            ...prev,
-            { role: "assistant", content: "Error: " + data.error },
-          ]);
+          body: JSON.stringify({ question }),
         }
-      } catch (error) {
-        console.error("Error:", error);
-        setChatHistory(prev => [
-          ...prev,
-          { role: "assistant", content: "Error connecting to the server" },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Add AI response to chat history
+        setChatHistory([
+          ...chatHistory,
+          { role: "user", content: question },
+          { role: "assistant", content: data.answer },
         ]);
-        // Break the loop if there is a connectivity error
-        break;
+      } else {
+        setChatHistory([
+          ...chatHistory,
+          { role: "user", content: question },
+          { role: "assistant", content: "Error: " + data.error },
+        ]);
       }
+    } catch (error) {
+      console.error("Error:", error);
+      setChatHistory([
+        ...chatHistory,
+        { role: "user", content: question },
+        { role: "assistant", content: "Error connecting to the server" },
+      ]);
     }
   };
 
   useEffect(() => {
     if (isChatOpen && inputRef.current) {
-      inputRef.current.focus(); 
+      inputRef.current.focus(); // Focus the input when the chat window opens
     }
   }, [isChatOpen]);
 
@@ -82,11 +81,12 @@ export const HelpButton = () => {
         helpButtonRef.current &&
         !helpButtonRef.current.contains(e.target)
       ) {
-        setIsChatOpen(false);
+        setIsChatOpen(false); // Close chat window if click is outside
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -106,16 +106,16 @@ export const HelpButton = () => {
   };
 
   const handleMouseUp = () => {
-    dragRef.current = false; // Reset dragging state
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseDown = (e) => {
     e.preventDefault();
-    dragRef.current = true; // Set dragging state to true
     startX.current = e.clientX;
     startY.current = e.clientY;
+    startWidth.current = chatWindowRef.current.offsetWidth;
+    startHeight.current = chatWindowRef.current.offsetHeight;
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
@@ -171,6 +171,12 @@ export const HelpButton = () => {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter your question"
+            style={{color:"var(--text-color)"}}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                  handleSubmit();
+              }
+          }}
             ref={inputRef} 
           />
           <button onClick={handleSubmit}>Send</button>

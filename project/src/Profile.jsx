@@ -7,7 +7,7 @@ export const Profile = ({ user = "User", picture = avatar }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="horizontal-card">
       <h2>Welcome, {user}!</h2>
       <Login visible={false} />
       <img src={picture} alt="Profile" />

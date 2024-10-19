@@ -263,7 +263,6 @@ const handleSubject = (e) => {
 
 const Table = ({ courses = [], program = [], programName = "", editable, setProgramOutcomes, setFilteredCourses }) => {
   const handleProgramChange = (e, index) => {
-    console.log("Change detected");
     const updatedProgram = [...program];
     updatedProgram[index] = e.target.value;
     setProgramOutcomes(updatedProgram); 

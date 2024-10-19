@@ -55,7 +55,7 @@ export const App = () => {
           onSelect={() => setProfileDropdownOpen(false)} 
         />
         
-        <main>
+        <div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -63,7 +63,7 @@ export const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
-        </main>
+        </div>
       </div>
 
       <div>
