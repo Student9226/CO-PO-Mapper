@@ -170,8 +170,8 @@ button:hover {
 main {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* Align children to the start */
-  width: 100%;  /* Ensure main takes full width */
+  justify-content: flex-start;
+  width: 100%;  
 }
 .form-centered {
   left: 50%; 
@@ -189,7 +189,7 @@ main {
 }
 
 .tables-right {
-  width: 100%;  /* Ensure the table area is fully utilized */
+  width: 100%; 
 }
 
 table {

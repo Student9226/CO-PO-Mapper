@@ -4,8 +4,8 @@ import bsc_it from "../json/bsc_it.json";
 import msc_it from "../json/msc_it.json";
 import programData from "../json/program.json";
 import { CoPoMatrixTable } from "./CoPoMatrixTable";
-import { Table } from "./Table";
 import { generateExcel, generateDoc, generatePDF } from "./reportGenerator"; 
+import PropTypes from 'prop-types';
 
 export const Home = () => {
   const [course, setCourse] = useState("");
@@ -27,12 +27,11 @@ export const Home = () => {
     setFilteredCourses([]);
     setSubjectOptions([]);
     
-    // Set the program outcomes for the selected course
     if (e.target.value) {
       const selectedProgramOutcomes = programData.program_outcomes[e.target.value] || [];
-      setProgram(selectedProgramOutcomes); // Store the selected program outcomes
+      setProgram(selectedProgramOutcomes);
     } else {
-      setProgram([]); // Clear program outcomes if no course is selected
+      setProgram([]); 
     }
   };
 
@@ -90,12 +89,12 @@ export const Home = () => {
     try {
         const programOutcomes = program; 
         const courseOutcomes = filteredCourses
-            .flatMap(course => course.outcomes) // Access outcomes correctly
-            .filter(outcome => outcome !== null); // Exclude null outcomes
+            .flatMap(course => course.outcomes) 
+            .filter(outcome => outcome !== null); 
 
         if (!programOutcomes.length || !courseOutcomes.length) {
             console.error('Missing program or course outcomes');
-            return; // Prevent empty request
+            return; 
         }
 
         const response = await fetch('https://5000-sagar999-copomapper-sasdici9ljh.ws-us116.gitpod.io/map_outcomes', {
@@ -110,7 +109,6 @@ export const Home = () => {
         });
 
         const mappingData = await response.json();
-        console.log(mappingData);
        await setCoPoMatrixData(mappingData.mapping);
 
     } catch (error) {
@@ -118,17 +116,6 @@ export const Home = () => {
     }
 };
 
-  const fetchCoPoMatrixData = async () => {
-    try {
-      const response = await fetch('/path_to_your_api');
-      const data = await response.json();
-      setCoPoMatrixData(data); // Make sure this is structured correctly
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
-
-  fetchCoPoMatrixData();
 
 const handleSubject = (e) => {
   setSubject(e.target.value);
@@ -148,6 +135,7 @@ const handleSubject = (e) => {
       course,
       semester,
       subject,
+      programName:course,
       program: program, 
       courses: filteredCourses,
       coPoMatrix: coPoMatrixData,
@@ -236,12 +224,14 @@ const handleSubject = (e) => {
           <button onClick={generateReport} style={{ border: '1px solid var(--text-color)' }}>
             Generate Report
           </button>
-
           <label className="switch">
             Allow editing
             <input onClick={handleSwitch} type="checkbox" value={isSwitchOn} />
             <span className="slider"></span>
           </label>
+          <button onClick={handleOutcomesSubmit} style={{border: '1px solid var(--text-color)' }}>
+        Remap Outcomes
+      </button>
         </div>
       </div>
 
@@ -259,7 +249,6 @@ const handleSubject = (e) => {
           setFilteredCourses={setFilteredCourses}
         />
 
-{console.log("Length"+coPoMatrixData.length)}
         {coPoMatrixData.length>0 && (
           <CoPoMatrixTable 
             selectedCourse={subject} 
@@ -271,3 +260,108 @@ const handleSubject = (e) => {
     </main>
   );
 };
+
+const Table = ({ courses = [], program = [], programName = "", editable, setProgramOutcomes, setFilteredCourses }) => {
+  const handleProgramChange = (e, index) => {
+    console.log("Change detected");
+    const updatedProgram = [...program];
+    updatedProgram[index] = e.target.value;
+    setProgramOutcomes(updatedProgram); 
+  };
+
+  const handleCourseOutcomeChange = (e, courseIndex, outcomeIndex) => {
+    const updatedCourses = [...courses];
+    updatedCourses[courseIndex].outcomes[outcomeIndex] = e.target.value;
+    setFilteredCourses(updatedCourses); 
+  };
+
+
+  return (
+    <>
+      {courses.length > 0 && (
+        <table className="course-table">
+          <thead>
+            <tr>
+              {courses.length !== 1 && <th>Sr no</th>}
+              <th>Course ID</th>
+              <th>Course Name</th>
+              <th>Outcomes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courses.map((course, index) => (
+              <tr key={course.id} style={{width: "fit-content"}}>
+                {courses.length > 1 && <td style={{ textAlign: "center" }}>{index + 1}</td>}
+                <td>{course.id}</td>
+                <td>{course.name}</td>
+                <td>
+                  <ul>
+                    {course.outcomes.map((outcome, outcomeIdx) => (
+                      editable ? (
+                        <li key={outcomeIdx} style={{listStyle: 'none'}}>
+                          <input
+                            value={outcome}
+                            onChange={(e) => handleCourseOutcomeChange(e, index, outcomeIdx)}
+                            className='editable-input'
+                          />
+                        </li>
+                      ) : (
+                        <li className='static-outcome' key={outcomeIdx}>
+                          {outcome}
+                        </li>
+                      )
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {program.length > 0 && (
+        <table className="program-table">
+          <thead>
+            <tr>
+              <th style={{width: '10%'}}>Sr no</th>
+              <th>{programName} Program Outcomes</th>
+            </tr>
+          </thead>
+          <tbody>
+          {program.map((outcome, index) => (
+            <tr key={index}>
+              <td style={{ textAlign: "center" }}>{index + 1}</td>
+              <td>
+                {editable ? (
+                  <input
+                    className="editable-input"
+                    value={outcome}
+                    onChange={(e) => handleProgramChange(e, index)}
+                  />
+                ) : (
+                  <span className="static-outcome" style={{display: "block"}}>{outcome}</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        </table>
+      )}
+    </>
+  );
+};
+
+Table.propTypes = {
+  courses: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      outcomes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    })
+  ),
+  program: PropTypes.arrayOf(PropTypes.string),
+  programName: PropTypes.string,
+  editable: PropTypes.bool.isRequired,
+  setProgramOutcomes: PropTypes.func,
+  setFilteredCourses: PropTypes.func
+};
+

@@ -2,19 +2,14 @@ import PropTypes from 'prop-types';
 
 export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '', coPoMatrixData = [] }) => {
 
-  console.log(coPoMatrixData);
-
-  if (!selectedCourse || !selectedProgram) return null; // Removed duplicate check
-
-  // Directly assign the mapping data
-  const cos = coPoMatrixData || []; // Use coPoMatrixData directly
+  if (!selectedCourse || !selectedProgram) return null; 
+  const cos = coPoMatrixData || []; 
 
   if (!cos.length) {
     return <p>No CO-PO mapping data available for {selectedCourse}.</p>;
   }
 
-  const poCount = cos[0]?.length || 0; // Assuming all COs have the same length
-
+  const poCount = cos[0]?.length || 0; 
   const avgValues = cos.reduce((acc, co) => {
     co.forEach((value, index) => {
       acc[index] = (acc[index] || 0) + value;
