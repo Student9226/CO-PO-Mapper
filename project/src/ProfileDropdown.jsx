@@ -13,8 +13,7 @@ export const ProfileDropdown = ({ isOpen, onSelect }) => {
         <li onClick={() => { navigate('/profile'); onSelect(); }}>Profile</li>
         <li onClick={() => { navigate('/about'); onSelect(); }}>About</li>
         <li onClick={() => { navigate('/contact'); onSelect(); }}>Contact</li>
-        <li onClick={() => { console.log('Clicked Login'); }}>Log in</li>
-<li onClick={() => { console.log('hi'); }}>Click</li>
+        <li onClick={() => { console.log('Clicked Login'); }}>Log out</li>
       </ul>
     </div>
   );
