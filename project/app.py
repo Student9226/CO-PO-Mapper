@@ -15,6 +15,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 def map_outcomes(program_outcomes, course_outcomes):
