@@ -120,9 +120,7 @@ export const Home = () => {
 const handleSubject = (e) => {
   setSubject(e.target.value);
   filterCourses(semester, e.target.value);
-  if (semester && e.target.value) {
-      handleOutcomesSubmit();
-  }
+  handleOutcomesSubmit();
 };
 
   const handleDocFormat = (e) => {
