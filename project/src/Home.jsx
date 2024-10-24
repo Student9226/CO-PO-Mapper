@@ -45,7 +45,7 @@ export const Home = () => {
 
     if (course) {
       const bscCSSyllabus = bsc_cs.syllabi.find((s) => s.syllabus_year === "2015-2016");
-      const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2023-2024");
+      const bscITSyllabus = bsc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
       const mscITSyllabus = msc_it.syllabi.find((s) => s.syllabus_year === "2015-2016");
 
       switch (course) {
@@ -68,7 +68,6 @@ export const Home = () => {
           programData = null;
       }
     }
-
     if (programData) {
       if (!selectedSubject) {
         setFilteredCourses(programData.courses);
@@ -78,12 +77,14 @@ export const Home = () => {
         );
         setFilteredCourses(selectedCourse);
       }
+
       setSubjectOptions(programData.courses.map((course) => course.name));
     } else {
       setFilteredCourses([]);
       setSubjectOptions([]);
     }
   };
+
 
   const handleOutcomesSubmit = async () => {
     try {
@@ -120,7 +121,6 @@ export const Home = () => {
 const handleSubject = (e) => {
   setSubject(e.target.value);
   filterCourses(semester, e.target.value);
-  handleOutcomesSubmit();
 };
 
   const handleDocFormat = (e) => {

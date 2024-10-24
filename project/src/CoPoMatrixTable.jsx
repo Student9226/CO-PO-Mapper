@@ -23,16 +23,16 @@ export const CoPoMatrixTable = ({ selectedCourse = '', selectedProgram = '', coP
       <table>
         <thead>
           <tr>
-            <th>Course Outcomes</th>
+            <th>Program Outcomes</th>
             {Array.from({ length: poCount }, (_, index) => (
-              <th key={index}>PO{index + 1}</th>
+              <th key={index}>CO{index + 1}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {cos.map((values, coIndex) => (
             <tr key={coIndex}>
-              <td style={{ padding: 8 }} className='td-center'>CO{coIndex + 1}</td>
+              <td style={{ padding: 8 }} className='td-center'>PO{coIndex + 1}</td>
               {values.map((value, index) => <td className='td-center' key={index}>{value}</td>)}
             </tr>
           ))}

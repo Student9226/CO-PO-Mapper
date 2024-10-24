@@ -1,6 +1,6 @@
 {
   "syllabi": [
-          {
+        {
         "syllabus_year": "2015-2016",
         "program": [
           {
@@ -31,7 +31,7 @@
             ]
           },
           {
-            "year": "Second",
+            "year": "First",
             "semester": "II",
             "courses": [
               {
@@ -56,13 +56,194 @@
                 ]
               }
             ]
+          },
+          {
+            "year": "Second",
+            "semester": "III",
+            "courses": [
+              {
+                "id": "USCS501",
+                "name": "Artificial Intelligence",
+                "outcomes": [
+                  "Demonstrate knowledge of the foundations and key concepts in the field of AI.",
+                  "Analyze and design intelligent agents for specific environments.",
+                  "Apply problem-solving techniques and algorithms to find solutions to different types of problems.",
+                  "Construct knowledge representation models and use reasoning techniques to derive new knowledge.",
+                  "Implement machine-learning algorithms and evaluate their performance for classification and regression tasks."
+                ]
+              },
+              {
+                "id": "USCS502",
+                "name": "Information & Network Security",
+                "outcomes": [
+                  "Analyze and evaluate security trends, attacks, and mechanisms, and propose effective security solutions based on the OSI security architecture.",
+                  "Apply classical encryption techniques, such as substitution and transposition ciphers, to encrypt and decrypt messages and analyze their security implications.",
+                  "Implement public-key cryptography algorithms, including RSA, and demonstrate the ability to securely exchange keys and establish secure communication channels.",
+                  "Design and implement secure authentication mechanisms, including message authentication codes and digital signatures, to ensure data integrity and non-repudiation.",
+                  "Evaluate and implement various security measures, such as IP security, web security protocols (e.g., SSL/TLS), intrusion detection systems, and firewall configurations, to protect networks and systems from unauthorized access and attacks."
+                ]
+              },
+              {
+                "id": "USCS5031",
+                "name": "Linux Server Administration",
+                "outcomes": [
+                  "Demonstrate proficiency in managing software packages and repositories in Linux.",
+                  "Configure and administer user accounts, groups, and permissions in a Linux system.",
+                  "Implement network services such as DNS, FTP, and web servers, ensuring proper security measures.",
+                  "Design and manage advanced network services including NFS, Samba, and LDAP for efficient file sharing and user authentication.",
+                  "Apply troubleshooting techniques to identify and resolve common issues in Linux server administration."
+                ]
+              },
+              {
+                "id": "USCS5032",
+                "name": "Software Testing & Quality Assurance",
+                "outcomes": [
+                  "Explain the importance of software testing and its impact on software quality.",
+                  "Apply appropriate software testing techniques to identify and mitigate software defects.",
+                  "Design and execute test cases to verify the functionality and performance of software systems.",
+                  "Understand the principles of verification and validation and their application in software testing.",
+                  "Utilize software testing tools and frameworks to automate testing processes and improve efficiency."
+                ]
+              },
+              {
+                "id": "USCS5041",
+                "name": "Cyber Forensics",
+                "outcomes": [
+                  "Demonstrate a solid understanding of the principles and techniques used in computer forensics investigations.",
+                  "Apply systematic approaches to acquire, preserve, and analyze digital evidence from various sources.",
+                  "Utilize specialized tools and software for conducting effective computer forensics analysis.",
+                  "Develop strong skills in investigating network-related incidents, including live acquisitions and network forensics.",
+                  "Generate comprehensive and well-written reports that accurately document the findings of computer forensic investigations."
+                ]
+              },
+              {
+                "id": "USCS5042",
+                "name": "Game Programming",
+                "outcomes": [
+                  "Apply vector manipulation techniques and transformations to create and manipulate objects in 3D space.",
+                  "Utilize industry-standard tools and technologies such as Unity and DirectX for 3D game development.",
+                  "Implement advanced graphics techniques, including lighting, shading, and texturing, to create visually stunning game environments.",
+                  "Design and develop games that incorporate principles of game design to create engaging and immersive experiences.",
+                  "Deploy and showcase 3D games on various platforms, demonstrating proficiency in game development."
+                ]
+              },
+              {
+                "id": "USCS5051",
+                "name": "Project Managament",
+                "outcomes": [
+                  "Apply project management principles, processes, and best practices to plan, execute, and control projects effectively.",
+                  "Develop project charters, define project scopes, and create work breakdown structures (WBS) to establish project objectives and deliverables.",
+                  "Create project schedules, estimate resource requirements, and monitor project progress using appropriate project management techniques.",
+                  "Employ quality assurance and control measures to ensure project deliverables meet stakeholder expectations and industry standards.",
+                  "Demonstrate effective leadership and teamwork skills, as well as the ability to manage stakeholders, resolve conflicts, and make ethical decisions in project management settings."
+                ]
+              },
+              {
+                "id": "USCS5052",
+                "name": "Operations Research",
+                "outcomes": [
+                  "Define and explain the key concepts and features of Operations Research.",
+                  "Formulate and solve linear programming models using appropriate techniques.",
+                  "Apply duality concepts to analyze and interpret the results of linear programming problems.",
+                  "Conduct sensitivity analysis to assess the robustness and flexibility of linear programming solutions.",
+                  "Apply advanced techniques such as goal programming, transportation problems, and assignment problems to real-world decision-making scenarios."
+                ]
+              }
+            ]
+          },
+      {
+        "year": "Second",
+        "semester": "IV",
+        "courses": [
+          {
+            "id": "USCS601",
+            "name": "Data Science",
+            "outcomes": [
+              "Apply data preprocessing techniques to clean and transform raw data, handle missing values andoutliers, and merge datasets.",
+              "Implement machine-learning algorithms to perform tasks such as regression, classification, clustering, and ensemble learning.",
+              "Evaluate and compare different machine learning models using appropriate evaluation metrics and cross-validation techniques.",
+              "Create informative and visually appealing data visualizations to communicate insights and patterns in data.",
+              "Understand the principles and practices of data management, including data governance, data quality assurance, and data privacy considerations."
+            ]
+          },
+          {
+            "id": "USCS602",
+            "name": "Cloud Computing and Web Services",
+            "outcomes": [
+              "Demonstrate a comprehensive understanding of cloud computing concepts, including different types of clouds and their characteristics.",
+              "Implement and utilize web service technologies, such as SOAP and REST, to develop distributed and parallel computing applications.",
+              "Design, deploy, and manage cloud-based applications and services using popular cloud computing platforms such as OpenStack and AWS.",
+              "Apply secure development practices and implement cloud security policies to ensure the confidentiality, integrity, and availability of cloud software solutions.",
+              "Utilize virtualization technologies to create and manage virtualized environments, considering the benefits and drawbacks of virtualization."
+            ]
+          },
+          {
+            "id": "USCS6031",
+            "name": "Wireless Sensor Networks",
+            "outcomes": [
+              "Understand the fundamental concepts, architectural elements, and optimization goals of Wireless Sensor Networks (WSNs) and apply this knowledge to analyze and design WSN solutions.",
+              "Evaluate and compare different medium access control protocols and routing strategies in WSNs, and make informed decisions to ensure efficient and reliable communication.",
+              "Demonstrate knowledge of wireless transmission technologies, such as frequency, signals, antennas, and propagation, and analyze their impact on WSN performance.",
+              "Assess the role of telecommunication systems, satellite, broadcast systems in WSNs, and understand their applications and implications for WSN deployments."
+            ]
+          },
+          {
+            "id": "USCS6032",
+            "name": "Information Retrieval",
+            "outcomes": [
+              "Explain the key components and principles of information retrieval systems.",
+              "Apply indexing, storage, and retrieval techniques to efficiently retrieve relevant documents.",
+              "Compare and contrast different retrieval models and select appropriate models for specific search scenarios.",
+              "Develop practical skills in implementing and evaluating information retrieval systems.",
+              "Demonstrate an understanding of advanced topics in information retrieval, including web search and machine learning techniques."
+            ]
+          },
+          {
+            "id": "USCS6041",
+            "name": "Data Mining & Warehousing",
+            "outcomes": [
+              "Explain the purpose and components of a data warehouse and differentiate it from transactional databases.",
+              "Perform OLAP operations on a multidimensional data model to analyze and query data.",
+              "Implement data preprocessing techniques to address missing data and prepare the data for mining.",
+              "Apply association rules mining algorithms to discover patterns and relationships in large datasets."
+            ]
+          },
+          {
+            "id": "USCS6042",
+            "name": "Ethical Hacking",
+            "outcomes": [
+              "Apply ethical hacking methodologies to conduct comprehensive security assessments and penetration tests.",
+              "Perform effective footprinting and reconnaissance techniques to gather critical information about target systems.",
+              "Identify and exploit vulnerabilities in various network and system components using appropriate tools and techniques.",
+              "Evaluate the security posture of web servers, web applications, and wireless networks, and recommend appropriate countermeasures.",
+              "Demonstrate an understanding of ethical and legal considerations in conducting ethical hacking activities and adhere to professional codes of conduct."
+            ]
+          },
+          {
+            "id": "USCS6051",
+            "name": "Customer Relationship Management",
+            "outcomes": [
+              "Students will be able to define and explain the various forms of CRM and their relevance to business contexts.",
+              "Students will acquire the skills to manage the customer journey effectively, including implementing customer acquisition and retention programs.",
+              "Students will understand the importance of customer-perceived value and its impact on customer satisfaction, loyalty, and business performance.",
+              "Students will be able to apply strategic and operational CRM approaches, such as customer portfolio management and marketing automation, to enhance organizational effectiveness.",
+              "Students will develop proficiency in analytical CRM techniques, including data management, analytics for strategy and tactics, and the successful implementation of CRM systems. They will also be able to analyze and draw insights from real-life case studies and success stories related to CRM."
+            ]
+          },
+          {
+            "id": "USCS6052",
+            "name": "Cyber Laws and IPR",
+            "outcomes": [
+              "Demonstrate a comprehensive understanding of cyber laws and their application in the digital age.",
+              "Evaluate legal frameworks and regulations governing cyber laws.",
+              "Identify and assess key issues in cyber laws, such as e-commerce, e-governance, and electronic records and contracts.",
+              "Understand cyber crimes, enforcement mechanisms, and the role of the Cyber Appellate Tribunal.",
+              "Analyze emerging issues in cyber laws, including liability of ISPs, privacy concerns, and jurisdictional complexities.",
+              "Recognize intellectual property rights and online regulations, including copyrights, patents, and domain name disputes."
+            ]
           }
         ]
       },
-
-    {
-      "syllabus_year": "2023-2024",
-      "program": [
         {
           "year": "Third",
           "semester": "V",
@@ -156,102 +337,103 @@
               ]
             }
           ]
+        
+    },
+    {
+      "year": "Third",
+      "semester": "VI",
+      "courses": [
+        {
+          "id": "USCS601",
+          "name": "Data Science",
+          "outcomes": [
+            "Apply data preprocessing techniques to clean and transform raw data, handle missing values andoutliers, and merge datasets.",
+            "Implement machine-learning algorithms to perform tasks such as regression, classification, clustering, and ensemble learning.",
+            "Evaluate and compare different machine learning models using appropriate evaluation metrics and cross-validation techniques.",
+            "Create informative and visually appealing data visualizations to communicate insights and patterns in data.",
+            "Understand the principles and practices of data management, including data governance, data quality assurance, and data privacy considerations."
+          ]
         },
         {
-          "year": "Third",
-          "semester": "VI",
-          "courses": [
-            {
-              "id": "USCS601",
-              "name": "Data Science",
-              "outcomes": [
-                "Apply data preprocessing techniques to clean and transform raw data, handle missing values andoutliers, and merge datasets.",
-                "Implement machine-learning algorithms to perform tasks such as regression, classification, clustering, and ensemble learning.",
-                "Evaluate and compare different machine learning models using appropriate evaluation metrics and cross-validation techniques.",
-                "Create informative and visually appealing data visualizations to communicate insights and patterns in data.",
-                "Understand the principles and practices of data management, including data governance, data quality assurance, and data privacy considerations."
-              ]
-            },
-            {
-              "id": "USCS602",
-              "name": "Cloud Computing and Web Services",
-              "outcomes": [
-                "Demonstrate a comprehensive understanding of cloud computing concepts, including different types of clouds and their characteristics.",
-                "Implement and utilize web service technologies, such as SOAP and REST, to develop distributed and parallel computing applications.",
-                "Design, deploy, and manage cloud-based applications and services using popular cloud computing platforms such as OpenStack and AWS.",
-                "Apply secure development practices and implement cloud security policies to ensure the confidentiality, integrity, and availability of cloud software solutions.",
-                "Utilize virtualization technologies to create and manage virtualized environments, considering the benefits and drawbacks of virtualization."
-              ]
-            },
-            {
-              "id": "USCS6031",
-              "name": "Wireless Sensor Networks",
-              "outcomes": [
-                "Understand the fundamental concepts, architectural elements, and optimization goals of Wireless Sensor Networks (WSNs) and apply this knowledge to analyze and design WSN solutions.",
-                "Evaluate and compare different medium access control protocols and routing strategies in WSNs, and make informed decisions to ensure efficient and reliable communication.",
-                "Demonstrate knowledge of wireless transmission technologies, such as frequency, signals, antennas, and propagation, and analyze their impact on WSN performance.",
-                "Assess the role of telecommunication systems, satellite, broadcast systems in WSNs, and understand their applications and implications for WSN deployments."
-              ]
-            },
-            {
-              "id": "USCS6032",
-              "name": "Information Retrieval",
-              "outcomes": [
-                "Explain the key components and principles of information retrieval systems.",
-                "Apply indexing, storage, and retrieval techniques to efficiently retrieve relevant documents.",
-                "Compare and contrast different retrieval models and select appropriate models for specific search scenarios.",
-                "Develop practical skills in implementing and evaluating information retrieval systems.",
-                "Demonstrate an understanding of advanced topics in information retrieval, including web search and machine learning techniques."
-              ]
-            },
-            {
-              "id": "USCS6041",
-              "name": "Data Mining & Warehousing",
-              "outcomes": [
-                "Explain the purpose and components of a data warehouse and differentiate it from transactional databases.",
-                "Perform OLAP operations on a multidimensional data model to analyze and query data.",
-                "Implement data preprocessing techniques to address missing data and prepare the data for mining.",
-                "Apply association rules mining algorithms to discover patterns and relationships in large datasets."
-              ]
-            },
-            {
-              "id": "USCS6042",
-              "name": "Ethical Hacking",
-              "outcomes": [
-                "Apply ethical hacking methodologies to conduct comprehensive security assessments and penetration tests.",
-                "Perform effective footprinting and reconnaissance techniques to gather critical information about target systems.",
-                "Identify and exploit vulnerabilities in various network and system components using appropriate tools and techniques.",
-                "Evaluate the security posture of web servers, web applications, and wireless networks, and recommend appropriate countermeasures.",
-                "Demonstrate an understanding of ethical and legal considerations in conducting ethical hacking activities and adhere to professional codes of conduct."
-              ]
-            },
-            {
-              "id": "USCS6051",
-              "name": "Customer Relationship Management",
-              "outcomes": [
-                "Students will be able to define and explain the various forms of CRM and their relevance to business contexts.",
-                "Students will acquire the skills to manage the customer journey effectively, including implementing customer acquisition and retention programs.",
-                "Students will understand the importance of customer-perceived value and its impact on customer satisfaction, loyalty, and business performance.",
-                "Students will be able to apply strategic and operational CRM approaches, such as customer portfolio management and marketing automation, to enhance organizational effectiveness.",
-                "Students will develop proficiency in analytical CRM techniques, including data management, analytics for strategy and tactics, and the successful implementation of CRM systems. They will also be able to analyze and draw insights from real-life case studies and success stories related to CRM."
-              ]
-            },
-            {
-              "id": "USCS6052",
-              "name": "Cyber Laws and IPR",
-              "outcomes": [
-                "Demonstrate a comprehensive understanding of cyber laws and their application in the digital age.",
-                "Evaluate legal frameworks and regulations governing cyber laws.",
-                "Identify and assess key issues in cyber laws, such as e-commerce, e-governance, and electronic records and contracts.",
-                "Understand cyber crimes, enforcement mechanisms, and the role of the Cyber Appellate Tribunal.",
-                "Analyze emerging issues in cyber laws, including liability of ISPs, privacy concerns, and jurisdictional complexities.",
-                "Recognize intellectual property rights and online regulations, including copyrights, patents, and domain name disputes."
-              ]
-            }
+          "id": "USCS602",
+          "name": "Cloud Computing and Web Services",
+          "outcomes": [
+            "Demonstrate a comprehensive understanding of cloud computing concepts, including different types of clouds and their characteristics.",
+            "Implement and utilize web service technologies, such as SOAP and REST, to develop distributed and parallel computing applications.",
+            "Design, deploy, and manage cloud-based applications and services using popular cloud computing platforms such as OpenStack and AWS.",
+            "Apply secure development practices and implement cloud security policies to ensure the confidentiality, integrity, and availability of cloud software solutions.",
+            "Utilize virtualization technologies to create and manage virtualized environments, considering the benefits and drawbacks of virtualization."
+          ]
+        },
+        {
+          "id": "USCS6031",
+          "name": "Wireless Sensor Networks",
+          "outcomes": [
+            "Understand the fundamental concepts, architectural elements, and optimization goals of Wireless Sensor Networks (WSNs) and apply this knowledge to analyze and design WSN solutions.",
+            "Evaluate and compare different medium access control protocols and routing strategies in WSNs, and make informed decisions to ensure efficient and reliable communication.",
+            "Demonstrate knowledge of wireless transmission technologies, such as frequency, signals, antennas, and propagation, and analyze their impact on WSN performance.",
+            "Assess the role of telecommunication systems, satellite, broadcast systems in WSNs, and understand their applications and implications for WSN deployments."
+          ]
+        },
+        {
+          "id": "USCS6032",
+          "name": "Information Retrieval",
+          "outcomes": [
+            "Explain the key components and principles of information retrieval systems.",
+            "Apply indexing, storage, and retrieval techniques to efficiently retrieve relevant documents.",
+            "Compare and contrast different retrieval models and select appropriate models for specific search scenarios.",
+            "Develop practical skills in implementing and evaluating information retrieval systems.",
+            "Demonstrate an understanding of advanced topics in information retrieval, including web search and machine learning techniques."
+          ]
+        },
+        {
+          "id": "USCS6041",
+          "name": "Data Mining & Warehousing",
+          "outcomes": [
+            "Explain the purpose and components of a data warehouse and differentiate it from transactional databases.",
+            "Perform OLAP operations on a multidimensional data model to analyze and query data.",
+            "Implement data preprocessing techniques to address missing data and prepare the data for mining.",
+            "Apply association rules mining algorithms to discover patterns and relationships in large datasets."
+          ]
+        },
+        {
+          "id": "USCS6042",
+          "name": "Ethical Hacking",
+          "outcomes": [
+            "Apply ethical hacking methodologies to conduct comprehensive security assessments and penetration tests.",
+            "Perform effective footprinting and reconnaissance techniques to gather critical information about target systems.",
+            "Identify and exploit vulnerabilities in various network and system components using appropriate tools and techniques.",
+            "Evaluate the security posture of web servers, web applications, and wireless networks, and recommend appropriate countermeasures.",
+            "Demonstrate an understanding of ethical and legal considerations in conducting ethical hacking activities and adhere to professional codes of conduct."
+          ]
+        },
+        {
+          "id": "USCS6051",
+          "name": "Customer Relationship Management",
+          "outcomes": [
+            "Students will be able to define and explain the various forms of CRM and their relevance to business contexts.",
+            "Students will acquire the skills to manage the customer journey effectively, including implementing customer acquisition and retention programs.",
+            "Students will understand the importance of customer-perceived value and its impact on customer satisfaction, loyalty, and business performance.",
+            "Students will be able to apply strategic and operational CRM approaches, such as customer portfolio management and marketing automation, to enhance organizational effectiveness.",
+            "Students will develop proficiency in analytical CRM techniques, including data management, analytics for strategy and tactics, and the successful implementation of CRM systems. They will also be able to analyze and draw insights from real-life case studies and success stories related to CRM."
+          ]
+        },
+        {
+          "id": "USCS6052",
+          "name": "Cyber Laws and IPR",
+          "outcomes": [
+            "Demonstrate a comprehensive understanding of cyber laws and their application in the digital age.",
+            "Evaluate legal frameworks and regulations governing cyber laws.",
+            "Identify and assess key issues in cyber laws, such as e-commerce, e-governance, and electronic records and contracts.",
+            "Understand cyber crimes, enforcement mechanisms, and the role of the Cyber Appellate Tribunal.",
+            "Analyze emerging issues in cyber laws, including liability of ISPs, privacy concerns, and jurisdictional complexities.",
+            "Recognize intellectual property rights and online regulations, including copyrights, patents, and domain name disputes."
           ]
         }
       ]
     }
   ]
 }
-
+  ]
+}
+    
